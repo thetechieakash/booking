@@ -99,7 +99,7 @@
                     <div class="hover-actions top-0 end-0 mt-4 me-4 z-5"><button class="btn btn-wish"><span
                                 class="far fa-heart" data-fa-transform="down-1"></span></button></div>
                     <div class="backdrop-faded backdrop-secondary-dark h-100 d-flex flex-column justify-content-end"><a
-                            class="stretched-link fs-7 text-white fw-bold" href="hotel-details.html">Hotel Palace</a>
+                            class="stretched-link fs-7 text-white fw-bold" href="<?= route_to('hotelDetails')?>">Hotel Palace</a>
                         <p class="mb-2 text-secondary-lighter"><span
                                 class="fa-solid fa-map-marker-alt me-2"></span>Bangkok, Thailand</p>
                         <div class="d-flex align-items-center gap-3"><span

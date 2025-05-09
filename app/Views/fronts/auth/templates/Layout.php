@@ -9,11 +9,12 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Booking</title>
+    <title>Phoenix</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
+
     <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('assets/img/favicons/apple-touch-icon.png'); ?>">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('assets/img/favicons/favicon-32x32.png'); ?>">
     <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/img/favicons/favicon-16x16.png'); ?>">
@@ -27,13 +28,10 @@
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
-    <link href="<?= base_url('vendors/flatpickr/flatpickr.min.css'); ?>" rel="stylesheet">
-    <link href="<?= base_url('vendors/nouislider/nouislider.min.css'); ?>" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
-        rel="stylesheet">
+    <link href="<?= base_url('vendors/mapbox-gl/mapbox-gl.css'); ?>" rel="stylesheet">
+    <link href="<?= base_url('vendors/swiper/swiper-bundle.min.css'); ?>" rel="stylesheet">
     <link href="<?= base_url('vendors/simplebar/simplebar.min.css'); ?>" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="<?= base_url(''); ?>unicons.iconscout.com/release/v4.0.8/css/line.css"> -->
     <link href="<?= base_url('assets/css/theme-rtl.min.css'); ?>" type="text/css" rel="stylesheet" id="style-rtl">
     <link href="<?= base_url('assets/css/theme.min.css'); ?>" type="text/css" rel="stylesheet" id="style-default">
     <link href="<?= base_url('assets/css/user-rtl.min.css'); ?>" type="text/css" rel="stylesheet" id="user-style-rtl">
@@ -53,11 +51,6 @@
             userLinkRTL.setAttribute('disabled', true);
         }
     </script>
-    
-    <link href="<?= base_url('vendors/glightbox/glightbox.min.css');?>" rel="stylesheet">
-    <link href="<?= base_url('vendors/mapbox-gl/mapbox-gl.css');?>" rel="stylesheet">
-    <link href="<?= base_url('vendors/swiper/swiper-bundle.min.css');?>" rel="stylesheet">
-
 </head>
 
 <body>

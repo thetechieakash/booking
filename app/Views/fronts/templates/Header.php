@@ -6,7 +6,7 @@
             class="navbar-toggler fs-8 ps-2 me-sm-2" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse" aria-expanded="false"
             aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <a class="navbar-brand flex-1 flex-lg-grow-0 me-lg-8 me-xl-13" href="<?= site_url('/') ?>">
+        <a class="navbar-brand flex-1 flex-lg-grow-0 me-lg-8 me-xl-13" href="<?= route_to('home') ?>">
             <div class="d-flex align-items-center"><img src="../../../../assets/img/icons/logo.png" alt="phoenix"
                     width="27" />
                 <h5 class="logo-text ms-2">phoenix</h5>
@@ -39,12 +39,12 @@
                         role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true"
                         aria-expanded="false">Hotel</a>
                     <ul class="dropdown-menu navbar-dropdown-caret">
-                        <li><a class="dropdown-item" href="homepage.html">Homepage</a></li>
-                        <li><a class="dropdown-item" href="hotel-details.html">Hotel Details</a></li>
-                        <li><a class="dropdown-item" href="hotel-compare.html">Hotel Compare</a></li>
-                        <li><a class="dropdown-item" href="checkout.html">Check out</a></li>
-                        <li><a class="dropdown-item" href="payment.html">Payment</a></li>
-                        <li><a class="dropdown-item" href="gallery.html">Gallery</a></li>
+                        <li><a class="dropdown-item" href="<?= route_to('home') ?>">Homepage</a></li>
+                        <li><a class="dropdown-item" href="<?= route_to('hotelDetails') ?>">Hotel Details</a></li>
+                        <!-- <li><a class="dropdown-item" href="hotel-compare.html">Hotel Compare</a></li> -->
+                        <li><a class="dropdown-item" href="<?= route_to('hotelCheckOut') ?>">Check out</a></li>
+                        <!-- <li><a class="dropdown-item" href="payment.html">Payment</a></li> -->
+                        <!-- <li><a class="dropdown-item" href="gallery.html">Gallery</a></li> -->
                     </ul>
                 </li>
                 
@@ -53,9 +53,9 @@
                         data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true"
                         aria-expanded="false">Trip</a>
                     <ul class="dropdown-menu navbar-dropdown-caret">
-                        <li><a class="dropdown-item" href="<?= site_url('/trip')?>">Homepage</a></li>
-                        <li><a class="dropdown-item" href="../../trip/trip-details.html">Trip Details</a></li>
-                        <li><a class="dropdown-item" href="../../trip/checkout.html">Checkout</a></li>
+                        <li><a class="dropdown-item" href="<?= route_to('trip')?>">Homepage</a></li>
+                        <li><a class="dropdown-item" href="<?= route_to('tripDetails') ?>">Trip Details</a></li>
+                        <li><a class="dropdown-item" href="<?= route_to('tripCheckOut') ?>">Checkout</a></li>
                     </ul>
                 </li>
             </ul>

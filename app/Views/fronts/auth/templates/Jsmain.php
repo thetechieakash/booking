@@ -1,3 +1,4 @@
+</div>
 </main>
 <!-- ===============================================-->
 <!--    JavaScripts-->
@@ -12,13 +13,11 @@
 <script src="<?= base_url('vendors/feather-icons/feather.min.js'); ?>"></script>
 <script src="<?= base_url('vendors/dayjs/dayjs.min.js'); ?>"></script>
 <script src="<?= base_url('assets/js/phoenix.js'); ?>"></script>
-<script src="<?= base_url('vendors/flatpickr/flatpickr.min.js'); ?>"></script>
-<script src="<?= base_url('vendors/nouislider/nouislider.min.js'); ?>"></script>
-
-<script src="<?= base_url('vendors/glightbox/glightbox.min.js'); ?>"> </script>
+<script src="<?= base_url('vendors/echarts/echarts.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/travel-agency-dashboard.js'); ?>"></script>
 <script src="<?= base_url('vendors/mapbox-gl/mapbox-gl.js'); ?>"></script>
+<script src="<?= base_url('unpkg.com/%40turf/turf%406.5.0/turf.min.js'); ?>"></script>
 <script src="<?= base_url('vendors/swiper/swiper-bundle.min.js'); ?>"></script>
-
 </body>
 
 </html>

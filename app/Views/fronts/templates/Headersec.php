@@ -6,19 +6,19 @@
         <ul class="navbar-nav justify-content-end align-items-center">
             <li class="nav-item" data-nav-item="data-nav-item">
                 <a class="nav-link px-3 ps-0 <?= $current == '' || $current == 'trip'? 'text-primary' : '' ?>"
-                    href="homepage.html">Homepage</a>
+                    href="<?= route_to('home') ?>">Homepage</a>
             </li>
             <?php if ($current == '') :?>
                 <li class="nav-item" data-nav-item="data-nav-item">
                     <a class="nav-link px-3 <?= $current == 'hotel-details' ? 'text-primary' : '' ?>"
-                        href="hotel-details.html">Hotel Details</a>
+                        href="<?= route_to('hotelDetails')?>">Hotel Details</a>
                 </li>
                 <li class="nav-item" data-nav-item="data-nav-item">
                     <a class="nav-link px-3" href="hotel-compare.html">Hotel Compare</a>
                 </li>
             <?php endif;?>
             <li class="nav-item" data-nav-item="data-nav-item">
-                <a class="nav-link px-3" href="checkout.html">Check out</a>
+                <a class="nav-link px-3" href="<?= route_to('checkout') ?>">Check out</a>
             </li>
             <?php if ($current == '') :?>
             <li class="nav-item" data-nav-item="data-nav-item">

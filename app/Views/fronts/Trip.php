@@ -35,7 +35,7 @@
     <div class="container-medium">
         <div class="row g-3">
             <div class="col-md-6 col-xl-4">
-                <div class="hoverbox rounded"><a href="trip-details.html"><img class="img-fluid"
+                <div class="hoverbox rounded"><a href="<?=route_to('tripDetails')?>"><img class="img-fluid"
                             src="../../../assets/img/trip/1.png" alt="" />
                         <div class="backdrop-faded">
                             <h3 class="text-underline fs-7 fs-lg-6 text-white fw-bold mb-2">Selfie with Snape</h3>
