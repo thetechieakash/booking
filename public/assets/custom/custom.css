@@ -1,0 +1,23 @@
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    /* margin: 0; */
+    /* Optional: Adjust margins */
+}
+.fs-span{
+    font-size: 12px;
+}
+.top-10p{
+    top:10%
+}
+.start-ll {
+    left: 90% !important;
+}
+.iti {
+    position: relative;
+    display: block;
+}
+.iti .iti__selected-dial-code {
+    margin-left: 4px;
+    font-size: 12px;
+}

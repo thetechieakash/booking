@@ -18,6 +18,8 @@
 <script src="<?= base_url('vendors/glightbox/glightbox.min.js'); ?>"> </script>
 <script src="<?= base_url('vendors/mapbox-gl/mapbox-gl.js'); ?>"></script>
 <script src="<?= base_url('vendors/swiper/swiper-bundle.min.js'); ?>"></script>
+<!-- Internal TelephoneInput js-->
+
 
 </body>
 

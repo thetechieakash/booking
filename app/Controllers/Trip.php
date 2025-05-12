@@ -9,7 +9,7 @@ class Trip extends BaseController
         return view('fronts/templates/layout') .
             view('fronts/templates/header') .
             view('fronts/templates/groupheader') .
-            view('fronts/trip') .
+            view('fronts/user/trip') .
             view('fronts/templates/footerfull') .
             view('fronts/templates/footer') .
             view('fronts/templates/jsmain');
@@ -18,16 +18,16 @@ class Trip extends BaseController
     {
         return view('fronts/templates/layout') .
             view('fronts/templates/header') .
-            view('fronts/trip-details') .
+            view('fronts/user/trip-details') .
             view('fronts/templates/footerfull') .
             view('fronts/templates/footer') .
             view('fronts/templates/jsmain');
     }
-    public function checkout(): string
+    public function tripCheckOut(): string
     {
         return view('fronts/templates/layout') .
             view('fronts/templates/header') .
-            view('fronts/trip-checkout') .
+            view('fronts/user/trip-checkout') .
             view('fronts/templates/footernav') .
             view('fronts/templates/footer') .
             view('fronts/templates/jsmain');
