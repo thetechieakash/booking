@@ -17,10 +17,18 @@ $routes->group('trip', static function ($routes) {
     $routes->get('checkout', 'Trip::tripCheckOut', ['as' => 'tripCheckOut']);
 });
 $routes->group('admin', static function ($routes) {
-    $routes->get('home', 'Admin::home', ['as' => 'admin.home']);
-    $routes->get('add_property', 'Admin::addProperty', ['as' => 'admin.addProperty']);
-    $routes->get('add_room', 'Admin::addRoom', ['as' => 'admin.addRoom']);
-    $routes->get('members', 'Admin::members', ['as' => 'admin.members']);
+
+    $routes->get('', 'Admin::login', ['as' => 'admin.login']);
+    $routes->post('', 'Admin::loginHandler', ['as' => 'admin.login.handler']);
+    $routes->get('logout', 'Admin::logoutHandler', ['as' => 'admin.logout.handler']);
+    $routes->get('register', 'Admin::register', ['as' => 'admin.register']);
+
+    $routes->group('', [], static function ($routes) {
+        $routes->get('home', 'Admin::home', ['as' => 'admin.home']);
+        $routes->get('add_property', 'Admin::addProperty', ['as' => 'admin.addProperty']);
+        $routes->get('add_room', 'Admin::addRoom', ['as' => 'admin.addRoom']);
+        $routes->get('members', 'Admin::members', ['as' => 'admin.members']);
+    });
 });
 
 $routes->group('user', static function ($routes): void {

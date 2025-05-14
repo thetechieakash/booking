@@ -18,6 +18,7 @@
 <script src="https://unpkg.com/%40turf/turf%406.5.0/turf.min.js"></script>
 <script src="<?= base_url('vendors/mapbox-gl/mapbox-gl.js'); ?>"></script>
 <script src="<?= base_url('vendors/swiper/swiper-bundle.min.js'); ?>"></script>
+<script src="<?= base_url('assets/custom/customadmin.js'); ?>"></script>
 </body>
 
 </html>

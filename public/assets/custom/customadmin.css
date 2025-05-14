@@ -1,0 +1,40 @@
+.cstm-notifications {
+    position: fixed;
+    bottom: 2%;
+    right: 1%;
+    z-index: 100000;
+
+    p {
+        margin-bottom: 0;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .notifier {
+        padding: 5px 10px;
+        border-radius: 4px;
+        box-shadow: -6px -4px 34px 4px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: -6px -4px 34px 4px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: -6px -4px 34px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .notify-success {
+        background: #7dffbc;
+    }
+    .notify-danger {
+        background: #ff7e7e;
+    }
+}
+
+.alert-custom-fali {
+    background: #232531;
+    padding: 5px 10px;
+
+    p {
+        color: white;
+    }
+
+    button.btn-close {
+        color: white;
+    }
+}

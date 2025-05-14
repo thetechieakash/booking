@@ -5,13 +5,19 @@ namespace App\Controllers;
 class Home extends BaseController
 {
     public function home(): string
-    {
-        return $this->renderView('fronts/user/trip', 'groupheader', 'footerfull');
+    {   
+        $data =[
+            'pageTitle'=>'home'
+        ];
+        return $this->renderView('fronts/user/trip', 'groupheader', 'footerfull', $data);
     }
 
     public function hotelDetails(): string
     {
-        return $this->renderView('fronts/user/trip-details', null, 'footerfull');
+        $data = [
+            'pageTitle' => 'Details'
+        ];
+        return $this->renderView('fronts/user/trip-details', null, 'footerfull', $data);
     }
 
     public function hotelCheckOut(): string
@@ -22,9 +28,9 @@ class Home extends BaseController
     /**
      * Reusable layout loader for Trip pages
      */
-    private function renderView(string $contentView, ?string $optionalHeader = null, string $footerType = 'footerfull'): string
+    private function renderView($contentView,  $optionalHeader = null,  $footerType = 'footerfull', $data = []): string
     {
-        $output = view('fronts/templates/layout');
+        $output = view('fronts/templates/layout', $data);
         $output .= view('fronts/templates/header');
 
         if ($optionalHeader === 'groupheader') {

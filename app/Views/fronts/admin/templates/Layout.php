@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Booking - Admin</title>
+    <title>Booking - Admin | <?= esc($pageTitle ?? ''); ?></title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('assets/img/favicons/apple-touch-icon.png'); ?>">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('assets/img/favicons/favicon-32x32.png'); ?>">
@@ -46,6 +46,7 @@
             userLinkRTL.setAttribute('disabled', true);
         }
     </script>
+    <link href="<?= base_url('assets/custom/customadmin.css'); ?>" type="text/css" rel="stylesheet">
 </head>
 
 <body>
