@@ -5,8 +5,9 @@ namespace App\Filters;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Libraries\CIAuth;
 
-class AdminAuthFilter implements FilterInterface
+class CIFilter implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -25,9 +26,17 @@ class AdminAuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!session()->get('adminLogged')) {
-            return redirect()->to('/admin/login');
+        if ($arguments[0] == 'guest') {
+            if (CIAuth::check()) {
+                return redirect()->route('admin.home');
+            }
         }
+        if ($arguments[0] == 'auth') {
+            if (!CIAuth::check()) {
+                return redirect()->route('admin.login')->with('fail', 'Please Log In first!');
+            }
+        }
+        
     }
 
     /**

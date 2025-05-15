@@ -18,12 +18,16 @@ $routes->group('trip', static function ($routes) {
 });
 $routes->group('admin', static function ($routes) {
 
-    $routes->get('', 'Admin::login', ['as' => 'admin.login']);
-    $routes->post('', 'Admin::loginHandler', ['as' => 'admin.login.handler']);
-    $routes->get('logout', 'Admin::logoutHandler', ['as' => 'admin.logout.handler']);
-    $routes->get('register', 'Admin::register', ['as' => 'admin.register']);
-
-    $routes->group('', [], static function ($routes) {
+    // GUEST ROUTES (login, register) — accessible when NOT logged in
+    $routes->group('', ['filter' => 'cifilter:guest'], static function ($routes) {
+        $routes->get('', 'Admin::login', ['as' => 'admin.login']);
+        $routes->post('', 'Admin::loginHandler', ['as' => 'admin.login.handler']);
+    });
+    
+    // AUTH ROUTES (dashboard, logout, etc) — accessible only when logged in
+    $routes->group('', ['filter' => 'cifilter:auth'], static function ($routes) {
+        $routes->get('register', 'Admin::register', ['as' => 'admin.register']);
+        $routes->get('logout', 'Admin::logoutHandler', ['as' => 'admin.logout.handler']);
         $routes->get('home', 'Admin::home', ['as' => 'admin.home']);
         $routes->get('add_property', 'Admin::addProperty', ['as' => 'admin.addProperty']);
         $routes->get('add_room', 'Admin::addRoom', ['as' => 'admin.addRoom']);

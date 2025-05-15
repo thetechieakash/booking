@@ -6,3 +6,4 @@ setTimeout(() => {
         notifier.style.display = 'none';
     }
 }, 5000)
+

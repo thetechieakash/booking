@@ -24,7 +24,7 @@ class CIAuth
         $session = session();
         if ($session->has('logged_in')) {
             if ($session->has('admindata')) {
-                $session->get('admindata')['id'];
+                return $session->get('admindata')['id'];
             } else {
                 return null;
             }
