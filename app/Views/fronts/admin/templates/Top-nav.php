@@ -9,7 +9,7 @@
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center"><img src="<?= base_url('assets/img/icons/logo.png'); ?>"
                             alt="phoenix" width="27" />
-                        <h5 class="logo-text ms-2 d-none d-sm-block">phoenix</h5>
+                        <h5 class="logo-text ms-2 d-none d-sm-block">Booking</h5>
                     </div>
                 </div>
             </a>
@@ -44,33 +44,6 @@
                                     <div class="fw-normal text-body-highlight title"> <span
                                             class="fa-solid fa-clock-rotate-left" data-fa-transform="shrink-2"></span>
                                         MacBook Air - 13″</div>
-                                </div>
-                            </a>
-                        </div>
-                        <hr class="my-0" />
-                        <h6
-                            class="dropdown-header text-body-highlight fs-9 border-bottom border-translucent py-2 lh-sm">
-                            Products</h6>
-                        <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center"
-                                href="apps/e-commerce/landing/product-details.html">
-                                <div class="file-thumbnail me-2"><img class="h-100 w-100 object-fit-cover rounded-3"
-                                        src="<?= base_url('assets/img/products/60x60/3.png'); ?>" alt="" /></div>
-                                <div class="flex-1">
-                                    <h6 class="mb-0 text-body-highlight title">MacBook Air - 13″</h6>
-                                    <p class="fs-10 mb-0 d-flex text-body-tertiary"><span
-                                            class="fw-medium text-body-tertiary text-opactity-85">8GB Memory -
-                                            1.6GHz - 128GB Storage</span></p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item py-2 d-flex align-items-center"
-                                href="apps/e-commerce/landing/product-details.html">
-                                <div class="file-thumbnail me-2"><img class="img-fluid"
-                                        src="<?= base_url('assets/img/products/60x60/3.png'); ?>" alt="" /></div>
-                                <div class="flex-1">
-                                    <h6 class="mb-0 text-body-highlight title">MacBook Pro - 13″</h6>
-                                    <p class="fs-10 mb-0 d-flex text-body-tertiary"><span
-                                            class="fw-medium text-body-tertiary text-opactity-85">30 Sep at
-                                            12:30 PM</span></p>
                                 </div>
                             </a>
                         </div>
@@ -529,7 +502,7 @@
                                     <img class="rounded-circle " src="<?= base_url('assets/img/team/72x72/57.webp') ?>"
                                         alt="" />
                                 </div>
-                                <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
+                                <h6 class="mt-2 text-body-emphasis">User</h6>
                             </div>
                             <div class="mb-3 mx-3"><input class="form-control form-control-sm" id="statusUpdateInput"
                                     type="text" placeholder="Update your status" /></div>

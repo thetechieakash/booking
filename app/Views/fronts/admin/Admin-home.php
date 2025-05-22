@@ -1,11 +1,3 @@
-<div class="cstm-notifications">
-    <?php if (!empty(session()->getFlashdata('success'))): ?>
-        <div class="notifier notify-success" data-visibility="show">
-            <p><?= session()->getFlashdata('success') ?></p>
-        </div>
-    <?php endif; ?>
-</div>
-
 <div class="row mb-4 mb-xl-6 mb-xxl-4 gy-3 justify-content-between">
     <div class="col-auto">
         <h2 class="mb-0 text-body-emphasis">Travel Agency</h2>

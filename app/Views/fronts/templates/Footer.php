@@ -3,7 +3,7 @@
             href="../../../../index-2.html">
             <div class="d-flex align-items-center"><img src="../../../../assets/img/icons/logo.png" alt="phoenix"
                     width="27" />
-                <h5 class="logo-text ms-2">phoenix</h5>
+                <h5 class="logo-text ms-2">Booking</h5>
             </div>
         </a>
         <div class="dropdown"><button class="btn btn-sm p-0 d-md-none fs-8" type="button" data-bs-toggle="dropdown"

@@ -4,29 +4,30 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class AdminModel extends Model
+class PasswordResetOtpModel extends Model
 {
-    protected $table            = 'admins';
+    protected $table            = 'password_resets';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'full_name',
-        'username',
         'email',
-        'password',
-        'role',
-        'remember_token',
+        'otp',
+        'created_at',
     ];
 
+    protected bool $allowEmptyInserts = false;
+    protected bool $updateOnlyChanged = true;
+
+    protected array $casts = [];
+    protected array $castHandlers = [];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
 
     // Validation
     protected $validationRules      = [];

@@ -9,7 +9,7 @@
         <a class="navbar-brand flex-1 flex-lg-grow-0 me-lg-8 me-xl-13" href="<?= route_to('home') ?>">
             <div class="d-flex align-items-center"><img src="../../../../assets/img/icons/logo.png" alt="phoenix"
                     width="27" />
-                <h5 class="logo-text ms-2">phoenix</h5>
+                <h5 class="logo-text ms-2">Booking</h5>
             </div>
         </a>
         <div class="d-flex align-items-center gap-2 gap-sm-3 gap-md-4 my-2 order-lg-1">
@@ -40,7 +40,7 @@
             <div class=" dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button"
                     data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                     <div class="avatar avatar-l ">
-                        <img class="rounded-circle " src="assets/img/team/40x40/57.webp" alt="">
+                        <img class="rounded-circle " src="<?= base_url('assets/img/team/40x40/57.webp'); ?>" alt="">
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border"
@@ -49,7 +49,7 @@
                         <div class="card-body p-0">
                             <div class="text-center pt-4 pb-3">
                                 <div class="avatar avatar-xl ">
-                                    <img class="rounded-circle " src="assets/img/team/72x72/57.webp" alt="">
+                                    <img class="rounded-circle " src="<?= base_url('assets/img/team/72x72/57.webp'); ?>" alt="">
                                 </div>
                                 <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
                             </div>

@@ -81,17 +81,18 @@
                 <?php endif; ?>
             </div>
 
-            <div class="row flex-between-center mb-7">
+            <div class="row flex-between-center mb-3">
                 <div class="col-auto">
                     <div class="form-check mb-0">
-                        <input class="form-check-input" id="basic-checkbox" type="checkbox" checked="checked">
-                        <label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
+                        <input class="form-check-input" id="rememberMe" type="checkbox" name="rememberMe" checked="checked">
+                        <label class="form-check-label mb-0" for="rememberMe">Remember me</label>
                     </div>
                 </div>
                 <div class="col-auto">
                     <!-- <a class="fs-9 fw-semibold" href="<?= route_to('user.forgotPassword'); ?>">Forgot password</a> -->
                 </div>
             </div>
+            <input type="hidden" name="refer" value="<?= esc($refer) ?>">
             <button class="btn btn-primary w-100 mb-3" type="submit">Sign In</button>
             <div class="text-center">
                 <a class="fs-9 fw-bold" href="<?= route_to('admin.register'); ?>">Create an account</a>

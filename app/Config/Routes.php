@@ -5,37 +5,45 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::home', ['as' => 'home']);
+$routes->get('/', 'User\Hotel::index', ['as' => 'home']);
 
 $routes->group('hotel', static function ($routes): void {
-    $routes->get('details', 'Home::hotelDetails', ['as' => 'hotelDetails']);
-    $routes->get('checkout', 'Home::hotelCheckOut', ['as' => 'hotelCheckOut']);
+    $routes->get('details', 'User\Hoteldetails::index', ['as' => 'hotelDetails']);
+    $routes->get('checkout', 'User\Hotelcheckout::index', ['as' => 'hotelCheckOut']);
 });
 $routes->group('trip', static function ($routes) {
-    $routes->get('trips', 'Trip::trip', ['as' => 'trip']);
-    $routes->get('details', 'Trip::tripDetails', ['as' => 'tripDetails']);
-    $routes->get('checkout', 'Trip::tripCheckOut', ['as' => 'tripCheckOut']);
+    $routes->get('trips', 'User\Trip::index', ['as' => 'trip']);
+    $routes->get('details', 'User\Tripdetails::index', ['as' => 'tripDetails']);
+    $routes->get('checkout', 'User\Tripcheckout::index', ['as' => 'tripCheckOut']);
 });
 $routes->group('admin', static function ($routes) {
 
-    // GUEST ROUTES (login, register) — accessible when NOT logged in
-    $routes->group('', ['filter' => 'cifilter:guest'], static function ($routes) {
-        $routes->get('', 'Admin::login', ['as' => 'admin.login']);
-        $routes->post('', 'Admin::loginHandler', ['as' => 'admin.login.handler']);
+    // Auth ROUTES (login) — accessible when NOT logged in
+    $routes->group('', ['filter' => 'AdminFilter:auth'], static function ($routes) {
+        $routes->get('', 'Admin\Login::index', ['as' => 'admin.login']);
+        $routes->post('', 'Admin\Login::loginHandler', ['as' => 'admin.login.handler']);
     });
-    
-    // AUTH ROUTES (dashboard, logout, etc) — accessible only when logged in
-    $routes->group('', ['filter' => 'cifilter:auth'], static function ($routes) {
-        $routes->get('register', 'Admin::register', ['as' => 'admin.register']);
-        $routes->get('logout', 'Admin::logoutHandler', ['as' => 'admin.logout.handler']);
-        $routes->get('home', 'Admin::home', ['as' => 'admin.home']);
-        $routes->get('add_property', 'Admin::addProperty', ['as' => 'admin.addProperty']);
-        $routes->get('add_room', 'Admin::addRoom', ['as' => 'admin.addRoom']);
-        $routes->get('members', 'Admin::members', ['as' => 'admin.members']);
+
+    // AUTH ROUTES (dashboard, logout,register etc) — accessible only when logged in
+    $routes->group('', ['filter' => 'AdminFilter:admin'], static function ($routes) {
+        $routes->get('home', 'Admin\Home::index', ['as' => 'admin.home']);
+        $routes->get('add_property', 'Admin\Addproperty::index', ['as' => 'admin.addProperty']);
+        $routes->get('add_room', 'Admin\Addroom::index', ['as' => 'admin.addRoom']);
+        $routes->get('members', 'Admin\Members::index', ['as' => 'admin.members']);
+        $routes->get('register', 'Admin\Register::index', ['as' => 'admin.register']);
+        $routes->get('logout', 'Admin\Logout::logoutHandler', ['as' => 'admin.logout.handler']);
+        $routes->get('forgot_password', 'Admin\Forgotpassword::index', ['as' => 'admin.forgot.passowrd']);
+        $routes->post('forgot_password', 'Admin\Forgotpassword::forgotPasswordHandler', ['as' => 'admin.forgot.passowrd.handler']);
     });
 });
 
 $routes->group('user', static function ($routes): void {
-    $routes->get('login', 'UserAuth::login', ['as' => 'user.login']);
-    $routes->get('register', 'UserAuth::register', ['as' => 'user.register']);
+    $routes->get('login', 'User\Login::index', ['as' => 'user.login']);
+    $routes->get('register', 'User\Register::index', ['as' => 'user.register']);
+});
+
+$routes->set404Override(function () {
+    return view('fronts/templates/Layout') .
+        view('fronts/Error_404.php') .
+        view('fronts/admin/templates/Jsmain');
 });

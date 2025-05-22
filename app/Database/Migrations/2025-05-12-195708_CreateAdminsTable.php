@@ -36,6 +36,11 @@ class CreateAdminsTable extends Migration
                 'constraint' => ['superadmin', 'admin', 'editor'],
                 'default' => 'admin'
             ],
+            'remember_token'=>[
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true,
+            ],
             'created_at'  => [
                 'type' => 'DATETIME',
                 'null' => true
