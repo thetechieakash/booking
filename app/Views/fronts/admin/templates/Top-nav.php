@@ -148,9 +148,9 @@
         </div>
         <ul class="navbar-nav navbar-nav-icons flex-row">
             <li class="nav-item">
-                <a href="<?= route_to('home');?>" target="_blank" class="nav-link text-black mb-1" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Back to home">
-                <span class="icon" data-feather="home"></span>
-            </a>
+                <a href="<?= route_to('home'); ?>" target="_blank" class="nav-link text-black mb-1" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Back to home">
+                    <span class="icon" data-feather="home"></span>
+                </a>
                 <div class="theme-control-toggle fa-icon-wait px-2">
                     <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"
                         data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
@@ -502,10 +502,12 @@
                                     <img class="rounded-circle " src="<?= base_url('assets/img/team/72x72/57.webp') ?>"
                                         alt="" />
                                 </div>
-                                <h6 class="mt-2 text-body-emphasis">User</h6>
+                                <h6 class="mt-2 text-body-emphasis"><?= $admindata['email'] ? esc($admindata['email']) : 'User'; ?></h6>
+                                <?php if ($admindata['role']): ?>
+                                    <p><?= esc($admindata['role']) ?></p>
+                                <?php endif; ?>
                             </div>
-                            <div class="mb-3 mx-3"><input class="form-control form-control-sm" id="statusUpdateInput"
-                                    type="text" placeholder="Update your status" /></div>
+                            
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
                             <ul class="nav d-flex flex-column mb-2 pb-1">
@@ -536,7 +538,7 @@
                                         another account</a></li>
                             </ul>
                             <hr />
-                            <a class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= route_to('admin.logout.handler')?>">
+                            <a class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= route_to('admin.logout.handler') ?>">
                                     <span class="me-2" data-feather="log-out"> </span>Sign out</a>
                             </a>
                             <div class="my-2 text-center fw-bold fs-10 text-body-quaternary"><a

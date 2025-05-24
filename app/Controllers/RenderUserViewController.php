@@ -9,6 +9,14 @@ class RenderUserViewController extends BaseController
     // Reuseable functions 
     public function renderViewUser($contentView,  $optionalHeader = null,  $footerType = 'footerfull', $data = [])
     {
+        $session = session();
+        if ($session->has('isLoggedIn')) {
+            $data['user'] = [
+                'user_id'    => $session->get('user_id'),
+                'user_name'  => $session->get('user_name'),
+                'user_email'  => $session->get('user_email'),
+            ];
+        }
         $output = view('fronts/templates/layout', $data);
         $output .= view('fronts/templates/header');
 

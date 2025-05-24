@@ -12,10 +12,9 @@ class UserModel extends Model
     protected $returnType       = 'array';
     protected $allowedFields    = [
         'full_name',
-        'username',
         'email',
         'phone',
-        'password'
+        'password_hash'
     ];
 
 
@@ -27,19 +26,39 @@ class UserModel extends Model
     protected $updatedField  = 'updated_at';
 
     // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
+    protected $validationRules = [
+        'full_name'      => 'permit_empty|alpha_space|max_length[100]',
+        'email'          => 'required|valid_email|is_unique[users.email]',
+        'phone'          => 'permit_empty|max_length[20]',
+        'password_hash'  => 'required|min_length[8]',
+    ];
+
+    protected $validationMessages = [
+        'full_name' => [
+            'alpha_space' => 'First name can only contain letters and spaces.'
+        ],
+        'email' => [
+            'required'    => 'The email field is required.',
+            'valid_email' => 'Please enter a valid email address.',
+            'is_unique'   => 'This email address is already registered. Please use a different one.'
+        ],
+        'password_hash' => [
+            'required'   => 'The password field is required.',
+            'min_length' => 'Your password must be at least {param} characters long.'
+        ],
+    ];
+
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    public function getUser($data)
+    {
+        $this->where("username", $data['username']);
+        $get = $this->get()->getRow();
+        if (!empty($get)) {
+            return $get;
+        } else {
+            return [];
+        }
+    }
 }
