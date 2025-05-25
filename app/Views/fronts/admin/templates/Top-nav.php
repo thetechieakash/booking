@@ -502,12 +502,10 @@
                                     <img class="rounded-circle " src="<?= base_url('assets/img/team/72x72/57.webp') ?>"
                                         alt="" />
                                 </div>
-                                <h6 class="mt-2 text-body-emphasis"><?= $admindata['email'] ? esc($admindata['email']) : 'User'; ?></h6>
-                                <?php if ($admindata['role']): ?>
-                                    <p><?= esc($admindata['role']) ?></p>
-                                <?php endif; ?>
+                                <h6 class="mt-2 text-body-emphasis"><?= $admindata['email'] ? $admindata['email'] : "admin"; ?></h6>
+                                <span class="admin-role"><?= $admindata['role'] ? $admindata['role'] : "admin"; ?></span>
                             </div>
-                            
+
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
                             <ul class="nav d-flex flex-column mb-2 pb-1">

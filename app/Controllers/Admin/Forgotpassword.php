@@ -44,7 +44,7 @@ class Forgotpassword extends BaseController
             // return route_to('admin/forgot_password')
             if (!$isValid) {
                 $render = new RenderAdminViewController();
-                return $render->renderViewAdmin('fronts/admin/forgot-password', [
+                return $render->renderViewAdmin('fronts/admin/Forgot-password', [
                     'step' => 'email',
                     'validation' => $this->validator
                 ]);

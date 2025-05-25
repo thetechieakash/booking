@@ -10,52 +10,31 @@ class CIAuth
      * @param mixed $result The user data to store in the session.
      * @return void
      */
-    public static function setCIAuth($result)
+    public static function setCIAuth(array $user): void
     {
-        $session = session();
-        $array = ['logged_in' => true];
-        $admindata = $result;
-        $session->set('admindata', $admindata);
-        $session->set($array);
+        session()->set([
+            'logged_in' => true,
+            'admindata' => $user
+        ]);
     }
 
-    public static function id()
+    public static function id(): ?int
     {
-        $session = session();
-        if ($session->has('logged_in')) {
-            if ($session->has('admindata')) {
-                return $session->get('admindata')['id'];
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return self::check() ? session('admindata.id') : null;
     }
 
-    public static function check()
+    public static function check(): bool
     {
-        $session = session();
-        return $session->has('logged_in');
+        return session()->has('logged_in');
     }
 
-    public static function forget()
+    public static function forget(): void
     {
-        $session = session();
-        $session->remove('logged_in');
-        $session->remove('admindata');
+        session()->remove(['logged_in', 'admindata']);
     }
-    public static function admin()
+
+    public static function admin(): ?array
     {
-        $session = session();
-        if ($session->has('logged_in')) {
-            if ($session->has('admindata')) {
-                return $session->get('admindata');
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return self::check() ? session('admindata') : null;
     }
 }

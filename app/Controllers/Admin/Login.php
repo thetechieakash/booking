@@ -24,14 +24,14 @@ class Login extends BaseController
     }
     public function loginHandler()
     {
-        $loginID = $this->request->getVar('login_id');
-        $password = $this->request->getVar('password');
-        $refer = $this->request->getVar('refer') ?? 'none';
+        $request = $this->request;
+        $loginID = $request->getVar('login_id');
+        $password = $request->getVar('password');
+        $refer = $request->getVar('refer') ?? 'none';
 
-        // 📌 Detect field type (email or username)
         $fieldType = filter_var($loginID, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        // ✅ Validation rules
+        // Validation rules
         $rules = [
             'login_id' => [
                 'rules' => 'required|' . ($fieldType === 'email' ? 'valid_email|is_not_unique[admins.email]' : 'is_not_unique[admins.username]'),
@@ -47,49 +47,45 @@ class Login extends BaseController
                     'required' => 'Password is required',
                     'min_length' => 'Minimum 6 characters',
                     'max_length' => 'Maximum 45 characters',
-                ]
+                ],
             ],
         ];
-        // ❌ Failed validation
+
         if (!$this->validate($rules)) {
-            $render = new RenderAdminViewController();
-            return $render->renderViewAdminAuth('fronts/admin-auth/Login', [
+            return (new RenderAdminViewController())->renderViewAdminAuth('fronts/admin-auth/Login', [
                 'pageTitle' => 'LogIn',
                 'validation' => $this->validator,
                 'refer' => $refer,
             ]);
         }
 
-        // ✅ Attempt login
+        // Fetch admin
         $adminModel = new AdminModel();
-        $adminInfo = $adminModel->where($fieldType, $loginID)->first();
+        $admin = $adminModel->where($fieldType, $loginID)->first();
 
-        if (!$adminInfo || !Hash::check($password, $adminInfo['password'])) {
+        if (!$admin || !Hash::check($password, $admin['password'])) {
             return redirect()->route('admin.login')->with('fail', 'Wrong password!')->withInput();
         }
 
-        // ✅ Store session data
-        CIAuth::setCIAuth($adminInfo);
+        // Store session
+        CIAuth::setCIAuth($admin);
 
-        // 🔐 Handle "Remember Me" option
-        if ($this->request->getVar('rememberMe')) {
+        // Handle Remember Me
+        if ($request->getVar('rememberMe')) {
             $token = bin2hex(random_bytes(32));
+            $adminModel->update($admin['id'], ['remember_token' => $token]);
 
-            // Optionally: hash token before saving (recommended)
-            $adminModel->update($adminInfo['id'], ['remember_token' => $token]);
-
-            // Secure cookie options
             setcookie('remember_token', $token, [
-                'expires' => time() + (60 * 60 * 24 * 30), // 30 days
+                'expires' => time() + 60 * 60 * 24 * 30, // 30 days
                 'path' => '/',
-                'secure' => isset($_SERVER['HTTPS']), // true if using HTTPS
+                'secure' => isset($_SERVER['HTTPS']),
                 'httponly' => true,
-                'samesite' => 'Lax'
+                'samesite' => 'Lax',
             ]);
         }
 
-        // ✅ Redirect to previous or dashboard
-        $successMsg = 'Welcome back, ' . $adminInfo['full_name'] . '!';
-        return redirect()->to($refer === 'none' ? base_url('admin') : $refer)->with('succ', $successMsg);
+        // Redirect back
+        $redirectUrl = session('redirect_url') ?? route_to('admin.home');
+        return redirect()->to($redirectUrl)->with('success', 'Welcome back, ' . $admin['full_name'] . '!');
     }
 }

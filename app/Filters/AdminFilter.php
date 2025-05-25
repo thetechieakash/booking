@@ -27,8 +27,10 @@ class AdminFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+        $session = session();
+        $isLoggedIn = CIAuth::check();
         // 🔐 Handle "Remember Me" functionality if user is not already logged in
-        if (!session()->has('admindata') && isset($_COOKIE['remember_token'])) {
+        if (!$session->has('admindata') && isset($_COOKIE['remember_token'])) {
             $adminModel = new AdminModel();
             $adminInfo = $adminModel->where('remember_token', $_COOKIE['remember_token'])->first();
 
@@ -38,31 +40,22 @@ class AdminFilter implements FilterInterface
             }
         }
 
-        // ⛔ Route: Prevent authenticated users from accessing login pages
-        if ($arguments[0] === 'auth') {
-            if (CIAuth::check()) {
-                return redirect()->route('admin.home');
-                // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                // return redirect()->to("admin?refer=$actual_link")->with('fail', 'Please Log In first!');
-            }
+
+        if (!isset($arguments[0])) {
+            // No condition to enforce, allow access
+            return $request;
+        }
+        if ($arguments[0] === 'auth' && $isLoggedIn) {
+            return redirect()->to(route_to('admin.home'));
+        }
+        if ($arguments[0] === 'admin' && !$isLoggedIn) {
+            // Authenticated-only routes (e.g., dashboard)
+            // optional: go back after login
+            $session->set('redirect_url', current_url());
+            return redirect()->to(route_to('admin.login'));
         }
 
-        // ✅ Route: Allow only authenticated admins
-        if ($arguments[0] === 'admin') {
-            if (!CIAuth::check()) {
-                // Generate full current URL to pass as "refer" query
-                $actual_link = (string) $request->getUri();
-                return redirect()->to("admin?refer=" . urlencode($actual_link))->with('fail', 'Please Log In first!');
-                // return redirect()->route('admin.login')->with('fail', 'Please Log In first!');
-            }
-        }
-        // if ($arguments[0] == 'admin') {
-        //     if (!CIAuth::check()) {
-        //         $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        //         return redirect()->to("admin?refer=$actual_link")->with('fail', 'Please Log In first!');
-        //     }
-        // }
-        
+        return $request;
     }
 
     /**

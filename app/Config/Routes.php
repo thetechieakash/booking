@@ -32,7 +32,7 @@ $routes->group('user', ['filter' => 'UserFilter:guest'], static function ($route
 });
 
 // Admin Authentication routes - accessible only if NOT logged in
-$routes->group('admin', ['filter' => 'UserFilter:noauth'], static function ($routes) {
+$routes->group('admin', static function ($routes) {
     $routes->group('', ['filter' => 'AdminFilter:auth'], static function ($routes) {
         $routes->get('', 'Admin\Login::index', ['as' => 'admin.login']);
         $routes->post('', 'Admin\Login::loginHandler', ['as' => 'admin.login.handler']);
@@ -40,7 +40,7 @@ $routes->group('admin', ['filter' => 'UserFilter:noauth'], static function ($rou
 });
 
 // Admin Dashboard and other admin routes - accessible only if logged in as admin
-$routes->group('admin', ['filter' => 'AdminFilter::admin'], static function ($routes) {
+$routes->group('admin', ['filter' => 'AdminFilter:admin'], static function ($routes) {
     $routes->get('home', 'Admin\Home::index', ['as' => 'admin.home']);
     $routes->get('add_property', 'Admin\Addproperty::index', ['as' => 'admin.addProperty']);
     $routes->get('add_room', 'Admin\Addroom::index', ['as' => 'admin.addRoom']);

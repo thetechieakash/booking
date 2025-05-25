@@ -129,8 +129,7 @@ $isActive = uri_string();
                         </a>
                     </div>
                     <div class="nav-item-wrapper">
-                        <a class="nav-link <?= $isActive == 'admin/forgot_password' ? 'active' : '' ?> label-1"
-                            href="<?= route_to('admin.forgot.passowrd') ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                        <a class="nav-link <?= $isActive == 'admin/forgot_password' ? 'active' : '' ?> label-1" href="<?= route_to('admin.forgot.password'); ?>" role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 <span class="nav-link-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock">

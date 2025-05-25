@@ -1,18 +1,28 @@
 <?php
 
-namespace App\Controllers\User;
+namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Controllers\RenderUserViewController;
-use App\Models\UserModel;
+use App\Libraries\CIAuth;
+use App\Models\AdminModel;
 
 class Logout extends BaseController
 {
     public function logoutHandler()
     {
-        $session = session();
-        $session->destroy(); // Clear all session data
+        // Remove remember me cookie
+        if (isset($_COOKIE['remember_token'])) {
+            setcookie('remember_token', '', time() - 3600, '/'); // delete cookie
+        }
 
-        return redirect()->to('/')->with('success', 'You have been logged out.');
+        // Remove token from DB
+        $admin = CIAuth::admin();
+        if ($admin) {
+            $adminModel = new AdminModel();
+            $adminModel->update($admin['id'], ['remember_token' => null]);
+        }
+        // echo 'logout';
+        CIAuth::forget();
+        return redirect()->route('admin.login')->with('success', 'You are logged out!')->withInput();
     }
 }

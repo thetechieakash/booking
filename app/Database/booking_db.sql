@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 23, 2025 at 07:56 PM
+-- Generation Time: May 25, 2025 at 08:53 AM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.18
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `admins` (
 --
 
 INSERT INTO `admins` (`id`, `full_name`, `username`, `email`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'SAdmin', 'sadmin@bgb.com', '$2y$10$e7Ffp4dp4m7AJje1gkftGORSWbfp5gRz89uqnt7M6jFIl1izSP6Gq', 'superadmin', 'e24069b6dee037e134874d2f5ecb4b6b91c6f4a84256c494e3a5ba2e687f650a', NULL, '2025-05-23 07:05:08');
+(1, 'Super Admin', 'SAdmin', 'sadmin@bgb.com', '$2y$10$IRvVgHyDzAGvnpLnmx.Ep.xLJ5BSer1cRkEtyIgnMQ./vH4yaZTjG', 'superadmin', 'e9285d0d43d297c9e0369d4a0e50652dc413992eb73d43831d8f55c06db41b5f', NULL, '2025-05-25 07:48:14');
 
 -- --------------------------------------------------------
 
@@ -142,6 +142,26 @@ CREATE TABLE IF NOT EXISTS `hotel_amenities` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hotel_images`
+--
+
+DROP TABLE IF EXISTS `hotel_images`;
+CREATE TABLE IF NOT EXISTS `hotel_images` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `hotel_id` int UNSIGNED NOT NULL,
+  `image_path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `alt_text` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `is_primary` tinyint(1) NOT NULL DEFAULT '0',
+  `sort_order` int UNSIGNED DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hotel_images_hotel_id_foreign` (`hotel_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -155,22 +175,23 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `time` int NOT NULL,
   `batch` int UNSIGNED NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`, `batch`) VALUES
-(1, '2025-05-12-173149', 'App\\Database\\Migrations\\CreateUsersTable', 'default', 'App', 1747739002, 1),
-(2, '2025-05-12-195708', 'App\\Database\\Migrations\\CreateAdminsTable', 'default', 'App', 1747739003, 1),
-(3, '2025-05-19-173648', 'App\\Database\\Migrations\\CreatePasswordResetsTable', 'default', 'App', 1747739003, 1),
-(4, '2025-05-23-175323', 'App\\Database\\Migrations\\CreateHotelsTable', 'default', 'App', 1748029937, 2),
-(5, '2025-05-23-181954', 'App\\Database\\Migrations\\CreateRoomTypesTable', 'default', 'App', 1748029937, 2),
-(6, '2025-05-23-182127', 'App\\Database\\Migrations\\CreateRoomsTable', 'default', 'App', 1748029937, 2),
-(7, '2025-05-23-182234', 'App\\Database\\Migrations\\CreateAmenitiesTable', 'default', 'App', 1748029937, 2),
-(8, '2025-05-23-182327', 'App\\Database\\Migrations\\CreateHotelAmenitiesTable', 'default', 'App', 1748029937, 2),
-(9, '2025-05-23-182422', 'App\\Database\\Migrations\\CreateBookingsTable', 'default', 'App', 1748029938, 2);
+(29, '2025-05-12-173149', 'App\\Database\\Migrations\\CreateUsersTable', 'default', 'App', 1748118083, 1),
+(30, '2025-05-12-195708', 'App\\Database\\Migrations\\CreateAdminsTable', 'default', 'App', 1748118083, 1),
+(31, '2025-05-19-173648', 'App\\Database\\Migrations\\CreatePasswordResetsTable', 'default', 'App', 1748118083, 1),
+(32, '2025-05-23-175323', 'App\\Database\\Migrations\\CreateHotelsTable', 'default', 'App', 1748118083, 1),
+(33, '2025-05-23-181954', 'App\\Database\\Migrations\\CreateRoomTypesTable', 'default', 'App', 1748118083, 1),
+(34, '2025-05-23-182127', 'App\\Database\\Migrations\\CreateRoomsTable', 'default', 'App', 1748118083, 1),
+(35, '2025-05-23-182234', 'App\\Database\\Migrations\\CreateAmenitiesTable', 'default', 'App', 1748118083, 1),
+(36, '2025-05-23-182327', 'App\\Database\\Migrations\\CreateHotelAmenitiesTable', 'default', 'App', 1748118084, 1),
+(37, '2025-05-23-182422', 'App\\Database\\Migrations\\CreateBookingsTable', 'default', 'App', 1748118084, 1),
+(38, '2025-05-24-164435', 'App\\Database\\Migrations\\CreateHotelPhotosTable', 'default', 'App', 1748118084, 1);
 
 -- --------------------------------------------------------
 
@@ -185,14 +206,7 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   `otp` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `password_resets`
---
-
-INSERT INTO `password_resets` (`id`, `email`, `otp`, `created_at`) VALUES
-(3, 'sadmin@bgb.com', '129190', '2025-05-20 20:25:10');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -245,10 +259,9 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `full_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `username` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_general_ci NOT NULL,
   `phone` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `password_hash` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
