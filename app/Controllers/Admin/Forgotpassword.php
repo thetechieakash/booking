@@ -5,9 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Controllers\RenderAdminViewController;
 use App\Models\AdminModel;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use App\Models\PasswordResetOtpModel;
+use App\Libraries\Hash;
 
 class Forgotpassword extends BaseController
 {
@@ -15,122 +13,81 @@ class Forgotpassword extends BaseController
 
     public function index()
     {
+        $session = session();
+        $step = $session->get('step') ?? 'old_verification';
+
         $data = [
-            'pageTitle' => 'Forgot Password',
-            'step' => 'email',
-            'validation' => null,
+            'pageTitle'   => 'Forgot Password',
+            'step'        => $step,
+            'emailError'  => $session->get('email'),
+            'oldpwdError' => $session->get('oldpwd'),
+            'error'       => $session->getFlashdata('error'),
+            'success'     => $session->getFlashdata('success')
         ];
+
+        // Cleanup session flash/state after using
+        $session->remove(['step', 'email', 'oldpwd']);
+
         $render = new RenderAdminViewController();
         return $render->renderViewAdmin('fronts/admin/Forgot-password', $data);
     }
+
     public function forgotPasswordHandler()
     {
-        $step = $this->request->getVar('step');
-        $model = new PasswordResetOtpModel();
+        $request = $this->request;
+        $data    = $request->getPost();
+        $step    = $request->getVar('step');
+        $model   = new AdminModel();
 
-        if ($step === 'email') {
-            $email = filter_var($this->request->getVar('email'), FILTER_VALIDATE_EMAIL);
+        if ($step === 'old_verification') {
+            $email = $data['email'];
 
-            $isValid = $this->validate([
-                'email' => [
-                    'rules' => 'required|valid_email|is_not_unique[admins.email]',
-                    'errors' => [
-                        'required' => 'Email is required',
-                        'valid_email' => 'Email not valid',
-                        'is_not_unique' => 'Email does not exist',
-                    ]
-                ]
-            ]);
-            // return route_to('admin/forgot_password')
-            if (!$isValid) {
-                $render = new RenderAdminViewController();
-                return $render->renderViewAdmin('fronts/admin/Forgot-password', [
-                    'step' => 'email',
-                    'validation' => $this->validator
-                ]);
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return redirect()->route('admin.forgot.password')->with('email', 'Invalid email format.');
             }
 
-            $otp = rand(100000, 999999);
+            $admin = $model->where('email', $email)->first();
+            if (!$admin) {
+                return redirect()->route('admin.forgot.password')->with('email', 'Email not found.');
+            }
 
-            $model->where('email', $email)->delete();
-            date_default_timezone_set('Asia/Kolkata');
-            $model->insert([
-                'email' => $email,
-                'otp' => $otp,
-                'created_at' => date('Y-m-d H:i:s')
+            if (!Hash::check($data['password'], $admin['password'])) {
+                return redirect()->route('admin.forgot.password')->with('oldpwd', 'Incorrect password.');
+            }
+
+            // Step passed, store ID and move forward
+            session()->set([
+                'step'           => 'new_update',
+                'reset_admin_id' => $admin['id']
             ]);
 
-            // Send OTP
-            $mail = new PHPMailer(true);
-
-            try {
-                $mail->isSMTP();
-                $mail->Host = getenv('EMAIL_HOST');
-                $mail->SMTPAuth = true;
-                $mail->Username = getenv('EMAIL_USERNAME');
-                $mail->Password = getenv('EMAIL_PASSWORD');
-                $mail->SMTPSecure = strtolower(getenv('EMAIL_ENCRYPTION')) === 'tls' ? PHPMailer::ENCRYPTION_STARTTLS : PHPMailer::ENCRYPTION_SMTPS;
-                $mail->Port = getenv('EMAIL_PORT');
-
-                $mail->setFrom(getenv('EMAIL_FROM_ADDRESS'), getenv('EMAIL_FROM_NAME'));
-                $mail->addAddress($email);
-
-                $mail->isHTML(true);
-                $mail->Subject = 'Your OTP for Password Reset';
-                $mail->Body = "<h3>Your OTP is: <b>$otp</b></h3><p>It is valid for 10 minutes.</p>";
-
-                $mail->send();
-            } catch (Exception $e) {
-                $render = new RenderAdminViewController();
-                return $render->renderViewAdmin('fronts/admin/forgot-password', [
-                    'step' => 'email',
-                    'error' => 'Failed to send OTP. Please try again.',
-                ]);
-            }
-
-            session()->set('reset_email', $email);
-
-            $render = new RenderAdminViewController();
-            return $render->renderViewAdmin('fronts/admin/forgot-password', ['step' => 'otp', 'email' => $email]);
+            return redirect()->route('admin.forgot.password');
         }
 
-        if ($step === 'otp') {
-            $otp = $this->request->getVar('otp');
-            $email = session()->get('reset_email');
-
-            $record = $model->where('email', $email)->where('otp', $otp)->first();
-            if (!$record) {
-                $render = new RenderAdminViewController();
-                return $render->renderViewAdmin('fronts/admin/forgot-password', ['step' => 'otp', 'error' => 'Invalid OTP', 'email' => $email]);
+        if ($step === 'new_update') {
+            if ($data['newpwd'] !== $data['repwd']) {
+                session()->setFlashdata('error', 'Passwords do not match!');
+                session()->set('step', 'new_update');
+                return redirect()->route('admin.forgot.password');
             }
 
-            if (time() - strtotime($record['created_at']) > 600) {
-                $render = new RenderAdminViewController();
-                return $render->renderViewAdmin('fronts/admin/forgot-password', ['step' => 'otp', 'error' => 'OTP expired', 'email' => $email]);
+            $adminId = session()->get('reset_admin_id');
+            if (!$adminId) {
+                return redirect()->route('admin.forgot.password')->with('error', 'Session expired. Please try again.');
             }
 
-            return view('admin/forgot-password', ['step' => 'password', 'email' => $email]);
+            // Update password
+            $hashedPassword = Hash::make($data['repwd']);
+            $model->update($adminId, ['password' => $hashedPassword]);
+
+            // Clear session state
+            session()->remove(['step', 'reset_admin_id']);
+
+            return redirect()->route('admin.forgot.password')->with('success', 'Password updated successfully.');
         }
 
-        if ($step === 'password') {
-            $password = $this->request->getVar('password');
-            $confirm = $this->request->getVar('confirm_password');
-            $email = session()->get('reset_email');
-
-            if ($password !== $confirm || strlen($password) < 6) {
-                return view('admin/forgot-password', [
-                    'step' => 'password',
-                    'email' => $email,
-                    'error' => 'Passwords must match and be at least 6 characters.'
-                ]);
-            }
-
-            $hashed = password_hash($password, PASSWORD_DEFAULT);
-            (new AdminModel())->where('email', $email)->set(['password' => $hashed])->update();
-            $model->where('email', $email)->delete();
-            session()->remove('reset_email');
-
-            return redirect()->to(base_url('admin/login'))->with('success', 'Password updated successfully.');
-        }
+        // If invalid step or tampering
+        session()->setFlashdata('error', 'Invalid request.');
+        return redirect()->route('admin.forgot.password');
     }
 }

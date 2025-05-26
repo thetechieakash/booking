@@ -29,8 +29,27 @@ class AdminModel extends Model
     protected $updatedField  = 'updated_at';
 
     // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
+    protected $validationRules = [
+        'full_name' => 'required|min_length[3]|max_length[100]',
+        'username' => 'required|alpha_numeric_space|min_length[3]|max_length[50]|is_unique[admins.username,id,{id}]',
+        'email' => 'required|valid_email|is_unique[admins.email,id,{id}]',
+        'password' => 'required|min_length[6]|max_length[255]',
+        'role' => 'required|in_list[superadmin,admin,editor]',
+    ];
+
+    // ✅ Custom validation messages (optional)
+    protected $validationMessages = [
+        'username' => [
+            'is_unique' => 'This username is already taken.',
+        ],
+        'email' => [
+            'is_unique' => 'This email is already registered.',
+            'valid_email' => 'Please provide a valid email address.',
+        ],
+        'password' => [
+            'min_length' => 'Password must be at least 6 characters long.',
+        ],
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
