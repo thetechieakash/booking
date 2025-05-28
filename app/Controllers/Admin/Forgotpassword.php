@@ -9,7 +9,7 @@ use App\Libraries\Hash;
 
 class Forgotpassword extends BaseController
 {
-    protected $helpers = ['url', 'form', 'CIMail'];
+    protected $helpers = ['url', 'form'];
 
     public function index()
     {

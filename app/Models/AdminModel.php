@@ -11,7 +11,6 @@ class AdminModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
     protected $allowedFields    = [
         'full_name',
         'username',
@@ -19,6 +18,7 @@ class AdminModel extends Model
         'password',
         'role',
         'remember_token',
+        'created_at'
     ];
 
 
@@ -31,7 +31,7 @@ class AdminModel extends Model
     // Validation
     protected $validationRules = [
         'full_name' => 'required|min_length[3]|max_length[100]',
-        'username' => 'required|alpha_numeric_space|min_length[3]|max_length[50]|is_unique[admins.username,id,{id}]',
+        'username' => 'required|alpha_dash|min_length[3]|max_length[50]|is_unique[admins.username,id,{id}]',
         'email' => 'required|valid_email|is_unique[admins.email,id,{id}]',
         'password' => 'required|min_length[6]|max_length[255]',
         'role' => 'required|in_list[superadmin,admin,editor]',
@@ -52,15 +52,4 @@ class AdminModel extends Model
     ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
-
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
 }

@@ -43,9 +43,11 @@ $routes->group('admin', static function ($routes) {
 $routes->group('admin', ['filter' => 'AdminFilter:admin'], static function ($routes) {
     $routes->get('home', 'Admin\Home::index', ['as' => 'admin.home']);
     $routes->get('add_property', 'Admin\Addproperty::index', ['as' => 'admin.addProperty']);
+    $routes->post('add_property', 'Admin\Addproperty::addPropertyHandler', ['as' => 'admin.addProperty.handler']);
     $routes->get('add_room', 'Admin\Addroom::index', ['as' => 'admin.addRoom']);
     $routes->get('members', 'Admin\Members::index', ['as' => 'admin.members']);
-    $routes->get('register', 'Admin\Register::index', ['as' => 'admin.register']);
+    $routes->get('add_admin', 'Admin\Addadmin::index', ['as' => 'admin.addadmin']);
+    $routes->post('add_admin', 'Admin\Addadmin::registerHandler', ['as' => 'admin.addadmin.handler']);
     $routes->get('logout', 'Admin\Logout::logoutHandler', ['as' => 'admin.logout.handler']);
     $routes->get('forgot_password', 'Admin\Forgotpassword::index', ['as' => 'admin.forgot.password']);
     $routes->post('forgot_password', 'Admin\Forgotpassword::forgotPasswordHandler', ['as' => 'admin.forgot.password.handler']);
