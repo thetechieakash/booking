@@ -4,40 +4,48 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateHotelPhotosTable extends Migration
+class CreateHotelsLocationTable extends Migration
 {
     public function up()
     {
         $this->forge->addField([
             'id' => [
                 'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
                 'auto_increment' => true,
             ],
             'hotel_id' => [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'unsigned'   => true,
             ],
-            'image_path' => [
+            'street_name' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '255', // Or higher if paths/URLs are longer
+                'constraint' => 255,
             ],
-            'alt_text' => [
+            'city' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '255',
+                'constraint' => 100,
+            ],
+            'state' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true, // Optional field
+            ],
+            'zip_code' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 20,
+            ],
+            'country_or_region' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+            ],
+            'latitude' => [
+                'type'       => 'DECIMAL',
+                'constraint' => '10,7',
                 'null'       => true,
             ],
-            'is_primary' => [
-                'type'       => 'TINYINT', // Boolean (0 or 1)
-                'constraint' => 1,
-                'default'    => 0,
-            ],
-            'sort_order' => [
-                'type'       => 'INT',
-                'constraint' => 5,
-                'unsigned'   => true,
+            'longitude' => [
+                'type'       => 'DECIMAL',
+                'constraint' => '10,7',
                 'null'       => true,
             ],
             'created_at' => [
@@ -49,13 +57,14 @@ class CreateHotelPhotosTable extends Migration
                 'null' => true,
             ],
         ]);
+
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('hotel_id', 'hotels', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('hotel_images');
+        $this->forge->createTable('hotel_locations');
     }
 
     public function down()
     {
-        $this->forge->dropTable('hotel_images');
+        $this->forge->dropTable('hotel_locations');
     }
 }

@@ -4,21 +4,23 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateHotelAmenitiesTable extends Migration
+class CreateHotelGalleyTable extends Migration
 {
     public function up()
     {
-        // Table: hotel_amenities (Pivot table for Many-to-Many relationship)
         $this->forge->addField([
+            'id' => [
+                'type' => 'INT',
+                'auto_increment' => true,
+                'unsigned' => true
+            ],
             'hotel_id' => [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'unsigned'   => true,
             ],
-            'amenity_id' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
+            'photos' => [
+                'type'       => 'JSON',
+                'null'       => true,
             ],
             'created_at' => [
                 'type' => 'DATETIME',
@@ -29,14 +31,14 @@ class CreateHotelAmenitiesTable extends Migration
                 'null' => true,
             ],
         ]);
-        $this->forge->addKey(['hotel_id', 'amenity_id'], true); // Composite primary key
+
+        $this->forge->addKey('id', true);
         $this->forge->addForeignKey('hotel_id', 'hotels', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('amenity_id', 'amenities', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('hotel_amenities');
+        $this->forge->createTable('hotel_galley');
     }
 
     public function down()
     {
-        $this->forge->dropTable('hotel_amenities');
+        $this->forge->dropTable('hotel_galley');
     }
 }

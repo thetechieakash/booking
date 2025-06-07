@@ -4,21 +4,22 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class HotelModel extends Model
+class HotelLocationModel extends Model
 {
-    protected $table            = 'hotels';
+    protected $table            = 'hotel_locations';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array'; 
 
     protected $allowedFields = [
-        'property_name',
-        'description',
-        'rating',
-        'email',
-        'phone',
-        'chain_name',
-        'thumbnail',
+        'hotel_id',
+        'street_name',
+        'city',
+        'state',
+        'zip_code',
+        'country_or_region',
+        'latitude',
+        'latitude',
     ];
 
     protected $useTimestamps = true;

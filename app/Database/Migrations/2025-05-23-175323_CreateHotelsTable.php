@@ -11,84 +11,51 @@ class CreateHotelsTable extends Migration
         // Table: hotels
         $this->forge->addField([
             'id' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
+                'type' => 'INT',
+                'auto_increment' => true
             ],
-            'name' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
+            'property_name' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
             ],
             'description' => [
                 'type' => 'TEXT',
-                'null' => true,
-            ],
-            'address' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-            ],
-            'city' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '100',
-            ],
-            'state' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '100',
-            ],
-            'zip_code' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '20',
-            ],
-            'country' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '100',
-            ],
-            'phone' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '20',
-            ],
-            'email' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '191',
-                'unique'     => true,
-            ],
-            'website' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '255',
-                'null'       => true,
+                'null' => true
             ],
             'rating' => [
-                'type'       => 'DECIMAL',
-                'constraint' => '2,1', // e.g., 4.5
-                'null'       => true,
+                'type' => 'INT',
+                'constraint' => 1,
+                'default' => 5
             ],
-            'latitude' => [
-                'type'       => 'DECIMAL',
-                'constraint' => '10,8', // e.g., 123.45678901
-                'null'       => true,
+            'email' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
             ],
-            'longitude' => [
-                'type'       => 'DECIMAL',
-                'constraint' => '11,8', // e.g., 123.45678901
-                'null'       => true,
+            'phone' => [
+                'type' => 'VARCHAR',
+                'constraint' => 20
+            ],
+            'chain_name' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true
+            ],
+            'thumbnail' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true
             ],
             'created_at' => [
                 'type' => 'DATETIME',
-                'null' => true,
+                'null' => true
             ],
             'updated_at' => [
                 'type' => 'DATETIME',
-                'null' => true,
-            ],
-            'deleted_at' => [
-                'type' => 'DATETIME',
-                'null' => true,
+                'null' => true
             ],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('hotels');
-        
     }
 
     public function down()

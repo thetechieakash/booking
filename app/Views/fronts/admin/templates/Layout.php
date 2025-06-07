@@ -26,6 +26,7 @@
     <link href="<?= base_url('vendors/flatpickr/flatpickr.min.css'); ?>" rel="stylesheet">
     <link href="<?= base_url('vendors/dropzone/dropzone.css'); ?>" rel="stylesheet">
     <link href="<?= base_url('vendors/swiper/swiper-bundle.min.css'); ?>" rel="stylesheet">
+    <link href="<?= base_url('vendors/nouislider/nouislider.min.css'); ?>" rel="stylesheet">
     <link href="<?= base_url('vendors/simplebar/simplebar.min.css'); ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/theme-rtl.min.css'); ?>" type="text/css" rel="stylesheet" id="style-rtl">
     <link href="<?= base_url('assets/css/theme.min.css'); ?>" type="text/css" rel="stylesheet" id="style-default">
@@ -51,4 +52,3 @@
 
 <body>
     <main class="main" id="top">
-        

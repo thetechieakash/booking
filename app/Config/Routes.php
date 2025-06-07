@@ -42,8 +42,22 @@ $routes->group('admin', static function ($routes) {
 // Admin Dashboard and other admin routes - accessible only if logged in as admin
 $routes->group('admin', ['filter' => 'AdminFilter:admin'], static function ($routes) {
     $routes->get('home', 'Admin\Home::index', ['as' => 'admin.home']);
-    $routes->get('add_property', 'Admin\Addproperty::index', ['as' => 'admin.addProperty']);
-    $routes->post('add_property', 'Admin\Addproperty::addPropertyHandler', ['as' => 'admin.addProperty.handler']);
+
+    // Base tab views
+    $routes->get('add_property', 'Admin\Addproperty::index', ['as' => 'admin.addProperty']); // For creating new property
+    $routes->get('add_property/(:segment)', 'Admin\Addproperty::index/$1'); // Example: tab2
+    $routes->get('add_property/(:segment)/(:num)', 'Admin\Addproperty::index/$1/$2'); // Example: tab2 + hotel_id
+
+    // Tab form submissions
+    $routes->post('save-hotel', 'Admin\Addproperty::saveHotel'); // Tab1 for save hotel
+    $routes->post('save-location/(:num)', 'Admin\Addproperty::saveLocation/$1'); // Tab2 for hotel loaction
+    $routes->post('add-amenities/(:num)', 'Admin\Addproperty::addAmenities/$1'); // Tab3 add custom amenities
+    $routes->post('save-hotel-amenities/(:num)', 'Admin\Addproperty::saveHotelAmenities/$1'); // Tab3
+    $routes->post('save-photos/(:num)', 'Admin\Addproperty::savePhotos/$1'); // Tab4
+    $routes->post('save-finance/(:num)', 'Admin\Addproperty::saveFinance/$1'); // Tab5
+    $routes->post('save-policies/(:num)', 'Admin\Addproperty::savePolicies/$1'); // Tab6
+    // end
+
     $routes->get('add_room', 'Admin\Addroom::index', ['as' => 'admin.addRoom']);
     $routes->get('members', 'Admin\Members::index', ['as' => 'admin.members']);
     $routes->get('add_admin', 'Admin\Addadmin::index', ['as' => 'admin.addadmin']);

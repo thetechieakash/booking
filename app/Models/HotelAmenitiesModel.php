@@ -4,21 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class HotelModel extends Model
+class HotelAmenitiesModel extends Model
 {
-    protected $table            = 'hotels';
+    protected $table            = 'hotel_amenities';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array'; 
 
     protected $allowedFields = [
-        'property_name',
-        'description',
-        'rating',
-        'email',
-        'phone',
-        'chain_name',
-        'thumbnail',
+        "hotel_id",
+        "amenities"
     ];
 
     protected $useTimestamps = true;
@@ -26,9 +21,4 @@ class HotelModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
-    // Validation rules (optional)
-    protected $validationRules    = [];
-    protected $validationMessages = [];
-
-    protected $skipValidation     = false;
 }

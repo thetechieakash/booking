@@ -8,22 +8,27 @@ class CreateAmenitiesTable extends Migration
 {
     public function up()
     {
-        // Table: amenities
         $this->forge->addField([
             'id' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
+                'type' => 'INT',
                 'auto_increment' => true,
+                'unsigned' => true
             ],
-            'name' => [
+            'cat' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '191',
-                'unique'     => true,
+                'constraint' => 100,
             ],
-            'description' => [
-                'type' => 'TEXT',
-                'null' => true,
+            'am_name' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+            ],
+            'cat_slug' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+            ],
+            'am_slug' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
             ],
             'created_at' => [
                 'type' => 'DATETIME',
@@ -33,11 +38,8 @@ class CreateAmenitiesTable extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-            'deleted_at' => [
-                'type' => 'DATETIME',
-                'null' => true,
-            ],
         ]);
+
         $this->forge->addKey('id', true);
         $this->forge->createTable('amenities');
     }
