@@ -20,6 +20,7 @@ class CreateHotelsLocationTable extends Migration
             'street_name' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
+                'null'       => true,
             ],
             'city' => [
                 'type'       => 'VARCHAR',
@@ -28,7 +29,6 @@ class CreateHotelsLocationTable extends Migration
             'state' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
-                'null'       => true, // Optional field
             ],
             'zip_code' => [
                 'type'       => 'VARCHAR',

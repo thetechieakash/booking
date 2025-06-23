@@ -3,9 +3,10 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Controllers\RenderAdminViewController;
+use App\Libraries\CIAuth;
 use App\Models\AdminModel;
 use App\Libraries\Hash;
+use Config\Services;
 
 class Addadmin extends BaseController
 {
@@ -13,11 +14,18 @@ class Addadmin extends BaseController
 
     public function index()
     {
+        $admindata = CIAuth::admin();
         $data = [
             'pageTitle' => 'members',
+            'admindata' => $admindata,
         ];
-        $render = new RenderAdminViewController;
-        return $render->renderViewAdmin('fronts/admin/Add-admin', $data);
+        return view('fronts/admin/templates/Layout', $data)
+            . view('fronts/admin/templates/Vertical-nav')
+            . view('fronts/admin/templates/Top-nav')
+            . view('fronts/admin/templates/Page-js')
+            . view('fronts/admin/Add-admin')
+            . view('fronts/admin/templates/Footer')
+            . view('fronts/admin/templates/Jsmain');
     }
 
     public function registerHandler()
@@ -25,9 +33,7 @@ class Addadmin extends BaseController
         $data = $this->request->getPost();
         $model = new AdminModel();
 
-        // print_r($data);
-
-        $validation = \Config\Services::validation();
+        $validation = Services::validation();
         $rules = [
             'full_name' => 'required|min_length[3]|max_length[50]',
             'email' => 'required|valid_email|is_unique[admins.email]',
@@ -65,12 +71,8 @@ class Addadmin extends BaseController
             'created_at' => date('Y-m-d H:i:s'),
         ];
         if (!$model->insert($insertableData)) {
-            // Show what failed
-            echo $username;
-            dd($model->errors());
+            return redirect()->route('admin.addadmin')->with('errors', 'Admin register failed!');
         }
-        // $model->insert($insertableData);
-        // echo $model->db->getLastQuery();
         return redirect()->route('admin.addadmin')->with('success', 'Admin registered successfully. Username: ' . esc($username));
     }
 }

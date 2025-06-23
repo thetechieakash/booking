@@ -3,7 +3,6 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Controllers\RenderAdminViewController;
 use App\Models\AdminModel;
 use App\Libraries\Hash;
 use App\Libraries\CIAuth;
@@ -15,12 +14,14 @@ class Login extends BaseController
     {
         $refer = $this->request->getGet('refer') ?? 'none';
 
-        $render = new RenderAdminViewController();
-        return $render->renderViewAdminAuth('fronts/admin-auth/Login', [
+        $data= [
             'pageTitle' => 'LogIn',
             'validation' => null,
             'refer' => $refer,
-        ]);
+        ];
+        return view('fronts/admin/templates/Layout', $data)
+            . view('fronts/admin-auth/Login')
+            . view('fronts/admin/templates/Jsmain');
     }
     public function loginHandler()
     {
@@ -50,13 +51,15 @@ class Login extends BaseController
                 ],
             ],
         ];
-
         if (!$this->validate($rules)) {
-            return (new RenderAdminViewController())->renderViewAdminAuth('fronts/admin-auth/Login', [
+            $data = [
                 'pageTitle' => 'LogIn',
                 'validation' => $this->validator,
                 'refer' => $refer,
-            ]);
+            ];
+            return view('fronts/admin/templates/Layout', $data)
+                . view('fronts/admin-auth/Login')
+                . view('fronts/admin/templates/Jsmain');
         }
 
         // Fetch admin

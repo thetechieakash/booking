@@ -50,6 +50,7 @@ $routes->group('admin', ['filter' => 'AdminFilter:admin'], static function ($rou
 
     // Tab form submissions
     $routes->post('save-hotel', 'Admin\Addproperty::saveHotel'); // Tab1 for save hotel
+    $routes->post('save-hotel/(:num)', 'Admin\Addproperty::saveHotel/$1'); // Tab1 for update hotel
     $routes->post('save-location/(:num)', 'Admin\Addproperty::saveLocation/$1'); // Tab2 for hotel loaction
     $routes->post('add-amenities/(:num)', 'Admin\Addproperty::addAmenities/$1'); // Tab3 add custom amenities
     $routes->post('save-hotel-amenities/(:num)', 'Admin\Addproperty::saveHotelAmenities/$1'); // Tab3

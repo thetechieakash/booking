@@ -3,9 +3,9 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Controllers\RenderAdminViewController;
 use App\Models\AdminModel;
 use App\Libraries\Hash;
+use App\Libraries\CIAuth;
 
 class Forgotpassword extends BaseController
 {
@@ -13,11 +13,13 @@ class Forgotpassword extends BaseController
 
     public function index()
     {
+        $admindata = CIAuth::admin();
         $session = session();
         $step = $session->get('step') ?? 'old_verification';
 
         $data = [
             'pageTitle'   => 'Forgot Password',
+            'admindata'   => $admindata,
             'step'        => $step,
             'emailError'  => $session->get('email'),
             'oldpwdError' => $session->get('oldpwd'),
@@ -27,9 +29,13 @@ class Forgotpassword extends BaseController
 
         // Cleanup session flash/state after using
         $session->remove(['step', 'email', 'oldpwd']);
-
-        $render = new RenderAdminViewController();
-        return $render->renderViewAdmin('fronts/admin/Forgot-password', $data);
+        return view('fronts/admin/templates/Layout', $data)
+            . view('fronts/admin/templates/Vertical-nav')
+            . view('fronts/admin/templates/Top-nav')
+            . view('fronts/admin/templates/Page-js')
+            . view('fronts/admin/Forgot-password')
+            . view('fronts/admin/templates/Footer')
+            . view('fronts/admin/templates/Jsmain');
     }
 
     public function forgotPasswordHandler()

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 04, 2025 at 03:34 PM
+-- Generation Time: Jun 21, 2025 at 07:21 PM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.18
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `admins` (
 --
 
 INSERT INTO `admins` (`id`, `full_name`, `username`, `email`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'SAdmin', 'sadmin@bgb.com', '$2y$10$4/PwnsfYm8M0E9LQ9vyocedYWCy.HvbmJcj13PqDiOYgqWeF7.Sle', 'superadmin', '934c0ce47378c258b57471497bb99b332c4c17d348bf09f5d253d6a32a069980', NULL, '2025-06-03 19:23:57');
+(1, 'Super Admin', 'SAdmin', 'sadmin@bgb.com', '$2y$10$hebnDGYyNyMntXFA9SEoVu5bfwGYzDZiivGdx146Hh4HrT1/oS6QS', 'superadmin', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `amenities` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `amenities`
@@ -139,12 +139,46 @@ CREATE TABLE IF NOT EXISTS `hotel_amenities` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `hotel_id` int NOT NULL,
   `amenities` json DEFAULT NULL,
-  `service_type` enum('free','paid') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'free',
-  `conditions` json DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `hotel_amenities_hotel_id_foreign` (`hotel_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hotel_finance`
+--
+
+DROP TABLE IF EXISTS `hotel_finance`;
+CREATE TABLE IF NOT EXISTS `hotel_finance` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `hotel_id` int NOT NULL,
+  `cash_payment` tinyint(1) NOT NULL DEFAULT '0',
+  `card_payment` tinyint(1) NOT NULL DEFAULT '0',
+  `online_payment` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hotel_finance_hotel_id_foreign` (`hotel_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hotel_galley`
+--
+
+DROP TABLE IF EXISTS `hotel_galley`;
+CREATE TABLE IF NOT EXISTS `hotel_galley` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `hotel_id` int NOT NULL,
+  `photos` json DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hotel_galley_hotel_id_foreign` (`hotel_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -173,6 +207,59 @@ CREATE TABLE IF NOT EXISTS `hotel_locations` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hotel_policies`
+--
+
+DROP TABLE IF EXISTS `hotel_policies`;
+CREATE TABLE IF NOT EXISTS `hotel_policies` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `hotel_id` int NOT NULL,
+  `ci_type` tinyint(1) NOT NULL DEFAULT '0',
+  `ci_start_time` time DEFAULT NULL,
+  `ci_end_time` time DEFAULT NULL,
+  `late_ci` tinyint(1) NOT NULL DEFAULT '0',
+  `age_restriction` tinyint(1) NOT NULL DEFAULT '0',
+  `deposit_at_ci` tinyint(1) NOT NULL DEFAULT '0',
+  `doc_at_ci` tinyint(1) NOT NULL DEFAULT '0',
+  `co_before` time DEFAULT NULL,
+  `flexible_co_status` tinyint(1) NOT NULL DEFAULT '0',
+  `flexible_co_type` tinyint(1) NOT NULL DEFAULT '0',
+  `flexible_co_condition` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `refund_policy_type` tinyint(1) NOT NULL DEFAULT '0',
+  `full_refund_allowed` tinyint(1) NOT NULL DEFAULT '0',
+  `partial_refund_allowed` tinyint(1) NOT NULL DEFAULT '0',
+  `pet_policy_type` tinyint(1) NOT NULL DEFAULT '0',
+  `pet_restricted_zones` tinyint(1) NOT NULL DEFAULT '0',
+  `pet_additional_charges` tinyint(1) NOT NULL DEFAULT '0',
+  `age_segments` json DEFAULT NULL,
+  `child_doc_requirement` tinyint(1) NOT NULL DEFAULT '0',
+  `vat_included` tinyint(1) NOT NULL DEFAULT '0',
+  `vat_radio` tinyint(1) NOT NULL DEFAULT '0',
+  `vat_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gst_included` tinyint(1) NOT NULL DEFAULT '0',
+  `gst_radio` tinyint(1) NOT NULL DEFAULT '0',
+  `gst_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hotel_tax_included` tinyint(1) NOT NULL DEFAULT '0',
+  `hotel_tax_radio` tinyint(1) NOT NULL DEFAULT '0',
+  `hotel_tax_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `city_dist_tax_included` tinyint(1) NOT NULL DEFAULT '0',
+  `regional_location_tax_radio` tinyint(1) NOT NULL DEFAULT '0',
+  `cdt_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tourist_tax_included` tinyint(1) NOT NULL DEFAULT '0',
+  `tourist_tax_radio` tinyint(1) NOT NULL DEFAULT '0',
+  `tourist_tax_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `property_registration_no` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `business_registration_no` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `taxpayer_identification_no` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hotel_id` (`hotel_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -186,19 +273,22 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `time` int NOT NULL,
   `batch` int UNSIGNED NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`, `batch`) VALUES
-(11, '2025-05-12-173149', 'App\\Database\\Migrations\\CreateUsersTable', 'default', 'App', 1748978582, 1),
-(12, '2025-05-12-195708', 'App\\Database\\Migrations\\CreateAdminsTable', 'default', 'App', 1748978582, 1),
-(13, '2025-05-23-175323', 'App\\Database\\Migrations\\CreateHotelsTable', 'default', 'App', 1748978582, 1),
-(14, '2025-05-29-193413', 'App\\Database\\Migrations\\CreateHotelsLocationTable', 'default', 'App', 1748978582, 1),
-(15, '2025-05-31-192232', 'App\\Database\\Migrations\\CreateAmenitiesTable', 'default', 'App', 1748978582, 1),
-(16, '2025-06-03-073005', 'App\\Database\\Migrations\\CreateHotelAmenitiesTable', 'default', 'App', 1748978582, 1);
+(10, '2025-05-12-173149', 'App\\Database\\Migrations\\CreateUsersTable', 'default', 'App', 1750533500, 1),
+(11, '2025-05-12-195708', 'App\\Database\\Migrations\\CreateAdminsTable', 'default', 'App', 1750533500, 1),
+(12, '2025-05-23-175323', 'App\\Database\\Migrations\\CreateHotelsTable', 'default', 'App', 1750533500, 1),
+(13, '2025-05-29-193413', 'App\\Database\\Migrations\\CreateHotelsLocationTable', 'default', 'App', 1750533500, 1),
+(14, '2025-05-31-192232', 'App\\Database\\Migrations\\CreateAmenitiesTable', 'default', 'App', 1750533500, 1),
+(15, '2025-06-03-073005', 'App\\Database\\Migrations\\CreateHotelAmenitiesTable', 'default', 'App', 1750533501, 1),
+(16, '2025-06-05-171422', 'App\\Database\\Migrations\\CreateHotelGalleyTable', 'default', 'App', 1750533501, 1),
+(17, '2025-06-09-162122', 'App\\Database\\Migrations\\CreateHotelFinanceTable', 'default', 'App', 1750533501, 1),
+(18, '2025-06-10-161901', 'App\\Database\\Migrations\\CreateHotelPoliciesTable', 'default', 'App', 1750533501, 1);
 
 -- --------------------------------------------------------
 
