@@ -31,6 +31,9 @@ $routes->group('user', ['filter' => 'UserFilter:guest'], static function ($route
     $routes->post('register', 'User\Register::registerHandeler', ['as' => 'user.register.handeler']);
 });
 
+// Custom route for uploded images(uri)
+$routes->get('image/hotel_thumbnail/(:num)/(:segment)', 'Admin\ImageController::hotelThumbnail/$1/$2');
+$routes->get('image/hotel_gallery/(:num)/(:segment)', 'Admin\ImageController::hotelGallery/$1/$2');
 // Admin Authentication routes - accessible only if NOT logged in
 $routes->group('admin', static function ($routes) {
     $routes->group('', ['filter' => 'AdminFilter:auth'], static function ($routes) {

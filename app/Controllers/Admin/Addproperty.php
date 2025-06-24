@@ -111,7 +111,8 @@ class Addproperty extends BaseController
 
         // Thumbnail upload 
         $file = $this->request->getFile('thumbnail');
-        $uploader = new FileUploader(ROOTPATH . 'public/uploads/hotel-thumbnails');
+        // $uploader = new FileUploader(ROOTPATH . 'public/uploads/hotel-thumbnails');
+        $uploader = new FileUploader(WRITEPATH . 'uploads/hotel-thumbnails');
 
         $result = $uploader->upload($file);
 
@@ -138,7 +139,8 @@ class Addproperty extends BaseController
         }
 
         if (!empty($existingHotel)) {
-            $oldPath = ROOTPATH . 'public/uploads/hotel-thumbnails/' . $existingHotel['thumbnail'];
+            // $oldPath = ROOTPATH . 'public/uploads/hotel-thumbnails/' . $existingHotel['thumbnail'];
+            $oldPath = WRITEPATH . 'uploads/hotel-thumbnails/' . $existingHotel['thumbnail'];
             if (file_exists($oldPath)) unlink($oldPath);
             if ($hotelModel->update($existingHotel['id'], $insertableData)) {
                 return redirect()->to('/admin/add_property/tab7/' . $hotelId)->with('success', 'Hotel info updated!');
@@ -297,7 +299,8 @@ class Addproperty extends BaseController
     {
         $files = $this->request->getFileMultiple('photos');
 
-        $uploadPath = ROOTPATH . 'public/uploads/hotel-gallery';
+        // $uploadPath = ROOTPATH . 'public/uploads/hotel-gallery';
+        $uploadPath = WRITEPATH . 'uploads/hotel-gallery';
         $fileUploader = new FileUploader($uploadPath);
         $uploadResults = $fileUploader->uploadMultiple($files);
         $uploadedFileNames = [];

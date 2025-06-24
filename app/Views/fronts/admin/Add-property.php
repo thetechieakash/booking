@@ -246,7 +246,7 @@ function tabClass($key, $currentIndex, $tabs)
                                     <?php if (!empty($hData['thumbnail'])): ?>
                                         <h4 class="mt-6 mb-3">Current Thumbnail</h4>
                                         <div class="mb-3">
-                                            <img src="<?= base_url('uploads/hotel-thumbnails/' . $hData['thumbnail']) ?>" width="250" class="rounded shadow-sm" />
+                                            <img src="<?= base_url('image/hotel_thumbnail/' . $hotelId . '/' . $hData['thumbnail']) ?>" width="250" class="rounded shadow-sm" />
                                         </div>
                                     <?php endif; ?>
                                     <h4 class="mt-6 mb-3"><?= !empty($hData['thumbnail']) ? 'Update' : 'Upload'; ?> thumbnail</h4>
@@ -950,8 +950,8 @@ function tabClass($key, $currentIndex, $tabs)
                                                                 </td>
                                                                 <td class="border-top pt-3  pb-3 text-nowrap">
                                                                     <?php if (!empty($hData['thumbnail'])): ?>
-                                                                        <img src="<?= base_url('uploads/hotel-thumbnails/' . $hData['thumbnail']) ?>" alt="<?= $hData['thumbnail'] ?>" class="img-thumbnail" width="200">
-                                                                    <?php else: ?>
+                                                                        <img src="<?= base_url('image/hotel_thumbnail/' .  $hotelId . '/' . $hData['thumbnail']) ?>" alt="<?= $hData['thumbnail'] ?>" class="img-thumbnail" width="200">
+                                                                        <?php else: ?>Edit info
                                                                         <p class="mb-0 text-body-secondary">No thumbnail available</p>
                                                                     <?php endif; ?>
                                                                 </td>
@@ -1069,7 +1069,7 @@ function tabClass($key, $currentIndex, $tabs)
                                                             foreach ($photos as $photo):
                                                         ?>
                                                                 <div class="col-sm-4 mb-3">
-                                                                    <img class="rounded-2 w-100 object-fit-cover" src="<?= base_url('uploads/hotel-gallery/' . $photo); ?>" alt="Hotel Photo" height="160">
+                                                                    <img class="rounded-2 w-100 object-fit-cover" src="<?= base_url('image/hotel_gallery/' . $hotelId . '/' . $photo) ?>" alt="Hotel Photo" height="160">
                                                                 </div>
                                                         <?php
                                                             endforeach;
