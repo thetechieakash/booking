@@ -1,29 +1,25 @@
 <div class="container-medium-md px-0 px-md-3">
     <div class="px-3 py-8 position-relative">
         <div class="bg-holder overlay rounded-md-2"
-            style="background-image:url(../../../../assets/img/bg/42.png);background-position: center; background-size: cover;">
+            style="background-image:url(<?= base_url('assets/img/bg/42.png') ?>);background-position: center; background-size: cover;">
         </div>
         <!--/.bg-holder-->
-        <div
-            class="row gx-0 gy-3 gy-md-0 align-items-center mx-auto p-3 bg-body-emphasis rounded-5 rounded-md-pill position-relative border w-lg-75">
+        <div class="row gx-0 gy-3 gy-md-0 align-items-center mx-auto p-3 bg-body-emphasis rounded-5 rounded-md-pill position-relative border w-lg-75">
             <div class="col-12 col-md">
-                <div class="form-icon-container border-bottom border-bottom-md-0 border-translucent pb-3 pb-md-0"><input
-                        class="form-control form-icon-input border-0 py-0 shadow-none fs-8" type="text"
-                        placeholder="Pick a place" /><span
-                        class="fa-solid fa-map-marker-alt form-icon text-body-tertiary top-0"
-                        data-fa-transform="down-2"></span></div>
+                <div class="form-icon-container border-bottom border-bottom-md-0 border-translucent pb-3 pb-md-0">
+                    <input class="form-control form-icon-input border-0 py-0 shadow-none fs-8" type="text" placeholder="Pick a place" />
+                    <span class="fa-solid fa-map-marker-alt form-icon text-body-tertiary top-0" data-fa-transform="down-2"></span>
+                </div>
             </div>
             <div class="col-6 col-md">
-                <div class="form-icon-container flatpickr-input-container"><input
-                        class="form-control datetimepicker form-icon-input border-y-0 border-start-0 border-start-md py-0 shadow-none border-translucent fs-8 rounded-0"
-                        type="text" placeholder="Pick a date"
-                        data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true}' /><span
-                        class="fa-solid fa-calendar form-icon top-0 text-body-tertiary"
-                        data-fa-transform="down-2"></span></div>
+                <div class="form-icon-container flatpickr-input-container">
+                    <input class="form-control datetimepicker form-icon-input border-y-0 border-start-0 border-start-md py-0 shadow-none border-translucent fs-8 rounded-0" type="text" placeholder="Pick a date" data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true}' />
+                    <span class="fa-solid fa-calendar form-icon top-0 text-body-tertiary" data-fa-transform="down-2"></span>
+                </div>
             </div>
-            <div class="col-6 col-md"><button class="btn px-3 fs-8 fw-semibold text-body-tertiary" type="button"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    data-bs-auto-close="outside"><span class="fa-solid fa-user me-2"></span>1 adult</button>
+            <div class="col-6 col-md">
+                <button class="btn px-3 fs-8 fw-semibold text-body-tertiary" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
+                    <span class="fa-solid fa-user me-2"></span>1 adult</button>
                 <div class="dropdown-menu dropdown-menu-start p-4" style="max-width: 320px">
                     <div class="row align-items-center g-0 pb-3 border-bottom border-translucent">
                         <div class="col-5">
@@ -94,8 +90,8 @@
         </div>
         <div class="row g-3 mb-6">
             <div class="col-sm-6 col-lg-4 col-xl-3">
-                <div class="hover-actions-trigger mx-auto rounded-3 overflow-hidden"><img class="img-fluid"
-                        src="../../../../assets/img/hotels/1.png" alt="" />
+                <div class="hover-actions-trigger mx-auto rounded-3 overflow-hidden">
+                    <img class="img-fluid" src="<?= base_url('assets/img/hotels/1.png'); ?>" alt="" loading="lazy"/>
                     <div class="hover-actions top-0 end-0 mt-4 me-4 z-5"><button class="btn btn-wish"><span
                                 class="far fa-heart" data-fa-transform="down-1"></span></button></div>
                     <div class="backdrop-faded backdrop-secondary-dark h-100 d-flex flex-column justify-content-end"><a

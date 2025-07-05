@@ -37,7 +37,7 @@ $session = session();
                 <span data-feather="log-in" style="width: 20px; height: 20px"></span>
             </a>
 
-            <?php if ($session->has('isLoggedIn')): ?>
+            <?php if ($session->has('userData')): ?>
                 <div class=" dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button"
                         data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <div class="avatar avatar-l ">
@@ -52,7 +52,7 @@ $session = session();
                                     <div class="avatar avatar-xl ">
                                         <img class="rounded-circle" src="<?= base_url('assets/img/team/72x72/57.webp'); ?>" alt="">
                                     </div>
-                                    <h6 class="mt-2 text-body-emphasis"><?= esc($session->get('user_email')) ?></h6>
+                                    <h6 class="mt-2 text-body-emphasis"><?= esc(session()->get('userData')['email']) ?></h6>
                                 </div>
                                 <div class="mb-3 mx-3"><input class="form-control form-control-sm" id="statusUpdateInput"
                                         type="text" placeholder="Update your status"></div>

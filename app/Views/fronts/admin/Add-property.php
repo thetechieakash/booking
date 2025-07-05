@@ -1728,7 +1728,7 @@ function tabClass($key, $currentIndex, $tabs)
         if (doneBtn) {
             doneBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                window.location.href = "<?= base_url('admin/room-listing'); ?>";
+                window.location.href = "<?= base_url('admin/hotel_listing'); ?>";
             });
         }
         // console.log(tabId);

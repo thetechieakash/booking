@@ -3,13 +3,13 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Libraries\CIAuth;
+use App\Libraries\CiAdmin;
 
 class Addroom extends BaseController
 {
     public function index()
     {
-        $admindata = CIAuth::admin();
+        $admindata = CiAdmin::admin();
         $data = [
             'pageTitle' => 'add-room',
             'admindata' => $admindata,

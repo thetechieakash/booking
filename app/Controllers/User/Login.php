@@ -3,8 +3,9 @@
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
-use App\Controllers\RenderUserViewController;
 use App\Models\UserModel;
+use App\Libraries\Hash;
+use App\Libraries\CiUser;
 
 class Login extends BaseController
 {
@@ -14,59 +15,66 @@ class Login extends BaseController
         $data = [
             'pageTitle' => 'Login'
         ];
-        $render = new RenderUserViewController;
-        return $render->renderViewUserAuth('fronts/user-auth/Login', $data);
+        return view('fronts/templates/Layout', $data) .
+            view('fronts/user-auth/Login') .
+            view('fronts/admin/templates/Jsmain');
     }
 
     public function loginHandeler()
     {
-        $session = session();
+        if ($this->request->isAJAX()) {
+            $data = $this->request->getPost();
+            // Validate email format
+            $email = filter_var($data['email'] ?? '', FILTER_VALIDATE_EMAIL);
+            $password = $data['password'] ?? '';
+            $rememberMe = $data['rememberMe'] ?? null;
+            if (!$email) {
+                return $this->response->setJSON([
+                    'err' => true,
+                    'type' => 'email',
+                    'msg'  => 'Please enter a valid email address.'
+                ]);
+            }
+            if (empty($password)) {
+                return $this->response->setJSON([
+                    'err' => true,
+                    'type' => 'password',
+                    'msg'  => 'Password is required.'
+                ]);
+            }
+            $userModel = new UserModel();
+            $user = $userModel->where('email', $email)->first();
+            if (!$user || !password_verify($password, $user['password_hash'])) {
+                return $this->response->setJSON([
+                    'err' => true,
+                    'type' => 'general',
+                    'msg'  => 'Invalid email or password.'
+                ]);
+            }
+            CiUser::setCIUser($user);
+            if ($rememberMe) {
+                $token = bin2hex(random_bytes(32));
+                $userModel->update($user['id'], ['remember_token' => $token]);
+                setcookie('remember_token', $token, [
+                    'expires' => time() + (86400 * 30),
+                    'path' => '/',
+                    'secure' => isset($_SERVER['HTTPS']),
+                    'httponly' => true,
+                    'samesite' => 'Lax'
+                ]);
+            }
 
-        $data = $this->request->getPost();
-
-        // Validate required fields
-        if (empty($data['email']) || empty($data['password'])) {
-            return redirect()->to('user/login')->with('error', 'Email and password are required.');
+            return $this->response->setJSON([
+                'success' => true,
+                'msg'     => 'Welcome back, ' . $user['full_name'] . '!',
+                'redirect' => route_to('home')
+            ]);
+        } else {
+            // Fallback if accessed normally (non-AJAX)
+            return $this->response->setJSON([
+                'err' => true,
+                'msg' => 'Invalid request type.'
+            ]);
         }
-
-        // Sanitize and fetch email
-        $email = filter_var($data['email'], FILTER_VALIDATE_EMAIL);
-        if (!$email) {
-            return redirect()->to('user/login')->with('error', 'Invalid email format.');
-        }
-
-        // Load model
-        $userModel = new UserModel();
-        $user = $userModel->where('email', $email)->first();
-
-        // Check if user exists
-        if (!$user) {
-            return redirect()->to('user/login')->with('error', 'Invalid email or password.');
-        }
-
-        // Verify password
-        if (!password_verify($data['password'], $user['password_hash'])) {
-            return redirect()->to('user/login')->with('error', 'Invalid email or password.');
-        }
-
-        // Store session data
-        $sessionData = [
-            'user_id'    => $user['id'],
-            'user_name'  => $user['full_name'],
-            'user_email' => $user['email'],
-            'isLoggedIn' => true,
-        ];
-        $session->set($sessionData);
-        // Redirect to intended URL or home
-        $redirectUrl = $session->get('redirect_url') ?? route_to('home');
-        $session->remove('redirect_url');
-        // Handle remember me (optional, basic cookie logic)
-        if (isset($data['remember']) && $data['remember'] === '1') {
-            // Example logic: store encrypted token or use native session remember mechanism
-            // Here we just set a cookie (for demo purposes, not secure for production use)
-            setcookie('remember_me', $user['email'], time() + (86400 * 30), "/"); // 30 days
-        }
-
-        return redirect()->to($redirectUrl)->with('success', 'Welcome back, ' . $user['full_name'] . '!');
     }
 }

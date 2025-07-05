@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
-use App\Libraries\CIAuth;
-use App\Models\AdminModel;
+use App\Libraries\CiUser;
+use App\Models\UserModel;
 
 class Logout extends BaseController
 {
@@ -16,13 +16,13 @@ class Logout extends BaseController
         }
 
         // Remove token from DB
-        $admin = CIAuth::admin();
-        if ($admin) {
-            $adminModel = new AdminModel();
-            $adminModel->update($admin['id'], ['remember_token' => null]);
+        $user = CiUser::user();
+        if ($user) {
+            $userModel = new UserModel();
+            $userModel->update($user['id'], ['remember_token' => null]);
         }
         // echo 'logout';
-        CIAuth::forget();
-        return redirect()->route('admin.login')->with('success', 'You are logged out!')->withInput();
+        CiUser::forget();
+        return redirect()->route('user.login')->with('success', 'You are logged out!');
     }
 }

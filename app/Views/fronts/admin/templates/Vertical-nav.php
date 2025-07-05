@@ -1,6 +1,20 @@
 <?php
 $isActive = uri_string();
-// echo $isActive;
+$hotelRoutes = [
+    'admin/add_property',
+    'admin/add_room',
+    'admin/room_listing',
+    'admin/hotel_listing',
+];
+
+$hotelCollapsed = true; // Default to collapsed
+
+foreach ($hotelRoutes as $route) {
+    if (strpos($isActive, $route) === 0) {
+        $hotelCollapsed = false;
+        break;
+    }
+}
 ?>
 <nav class="navbar navbar-vertical navbar-expand-lg" style="display:none;">
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
@@ -10,11 +24,10 @@ $isActive = uri_string();
                 <li class="nav-item">
                     <!-- label-->
                     <p class="navbar-vertical-label">Travel Agency</p>
-                    <hr class="navbar-vertical-line"><!-- parent pages-->
+                    <hr class="navbar-vertical-line">
                     <!-- parent pages-->
-                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
-                            href="#nv-customization" role="button" data-bs-toggle="collapse" aria-expanded="false"
-                            aria-controls="nv-customization">
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1 <?= $hotelCollapsed ? 'collapsed' : '' ?>" href="#nv-customization" role="button" data-bs-toggle="collapse" aria-expanded="<?= $hotelCollapsed ? 'false' : 'true' ?>" aria-controls="nv-customization">
                             <div class="d-flex align-items-center">
                                 <div class="dropdown-indicator-icon-wrapper">
                                     <svg class="svg-inline--fa fa-caret-right dropdown-indicator-icon"
@@ -24,7 +37,7 @@ $isActive = uri_string();
                                         <path fill="currentColor"
                                             d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z">
                                         </path>
-                                    </svg><!-- <span class="fas fa-caret-right dropdown-indicator-icon"></span> Font Awesome fontawesome.com -->
+                                    </svg>
                                 </div>
                                 <span class="nav-link-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
@@ -39,33 +52,41 @@ $isActive = uri_string();
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
+                            <ul class="nav collapse parent <?= $hotelCollapsed ? '' : 'show' ?>" data-bs-parent="#navbarVerticalCollapse"
                                 id="nv-customization">
-                                <li class="collapsed-nav-item-title d-none">Hotel</li>
-                                <li class="nav-item"><a class="nav-link"
-                                        href="<?= route_to('admin.addProperty') ?>">
-                                        <div class="d-flex align-items-center"><span class="nav-link-text">Add
-                                                property</span></div>
-                                    </a><!-- more inner pages-->
-                                </li>
-                                <li class="nav-item"><a class="nav-link"
-                                        href="<?= route_to('admin.addRoom') ?>">
-                                        <div class="d-flex align-items-center"><span class="nav-link-text">Add
-                                                room</span></div>
-                                    </a><!-- more inner pages-->
-                                </li>
-                                <li class="nav-item"><a class="nav-link"
-                                        href="../documentation/customization/color.html">
-                                        <div class="d-flex align-items-center"><span class="nav-link-text">Room
-                                                listing</span>
+                                <li class="hotelCollapsed-nav-item-title d-none">Hotel</li>
+                                <li class="nav-item">
+                                    <a class="nav-link <?= $isActive == 'admin/hotel_listing' ? 'active' : ''; ?>" href="<?= route_to('admin.hotel.listing') ?>">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Hotel listing</span>
                                         </div>
-                                    </a><!-- more inner pages-->
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link <?= (str_starts_with($isActive, 'admin/add_property')) ? 'active' : ''; ?>" href="<?= route_to('admin.addProperty'); ?>">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Add property</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link <?= $isActive == 'admin/add_room' ? 'active' : ''; ?>" href="<?= route_to('admin.addRoom') ?>">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Add room</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link <?= $isActive == 'admin/room_listing' ? 'active' : ''; ?>" href="<?= route_to('admin.room.listing') ?>">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Room listing</span>
+                                        </div>
+                                    </a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link"
                                         href="../documentation/customization/dark-mode.html">
-                                        <div class="d-flex align-items-center"><span class="nav-link-text">Search
-                                                room</span></div>
-                                    </a><!-- more inner pages-->
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Search room</span></div>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -81,7 +102,7 @@ $isActive = uri_string();
                                         <path fill="currentColor"
                                             d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z">
                                         </path>
-                                    </svg><!-- <span class="fas fa-caret-right dropdown-indicator-icon"></span> Font Awesome fontawesome.com -->
+                                    </svg>
                                 </div><span class="nav-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16px"
                                         height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -98,12 +119,12 @@ $isActive = uri_string();
                         <div class="parent-wrapper label-1">
                             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
                                 id="nv-layouts-doc">
-                                <li class="collapsed-nav-item-title d-none">Trip</li>
+                                <li class="hotelCollapsed-nav-item-title d-none">Trip</li>
                                 <li class="nav-item"><a class="nav-link"
                                         href="../documentation/layouts/vertical-navbar.html">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Add
                                                 trip</span></div>
-                                    </a><!-- more inner pages-->
+                                    </a>
                                 </li>
                             </ul>
                         </div>

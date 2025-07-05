@@ -2,19 +2,13 @@
 
 namespace App\Libraries;
 
-class CIAuth
+class CiAdmin
 {
-    /**
-     * Sets the CIAuth session or authentication state.
-     *
-     * @param mixed $result The user data to store in the session.
-     * @return void
-     */
-    public static function setCIAuth(array $user): void
+    public static function setCiAdmin(array $admin): void
     {
         session()->set([
-            'logged_in' => true,
-            'admindata' => $user
+            'admin_logged_in' => true,
+            'admindata' => $admin,
         ]);
     }
 
@@ -25,12 +19,12 @@ class CIAuth
 
     public static function check(): bool
     {
-        return session()->has('logged_in');
+        return session()->has('admin_logged_in') && session('admin_logged_in') === true;
     }
 
     public static function forget(): void
     {
-        session()->remove(['logged_in', 'admindata']);
+        session()->remove(['admin_logged_in', 'admindata']);
     }
 
     public static function admin(): ?array

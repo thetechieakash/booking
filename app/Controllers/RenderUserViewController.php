@@ -37,10 +37,5 @@ class RenderUserViewController extends BaseController
 
         return $output;
     }
-    public function renderViewUserAuth($contentView, $data = [])
-    {
-        return view('fronts/templates/Layout', $data) .
-            view($contentView) .
-            view('fronts/admin/templates/Jsmain');
-    }
+    
 }

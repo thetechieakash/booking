@@ -34,11 +34,11 @@ class CreateHotelGalleyTable extends Migration
 
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('hotel_id', 'hotels', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('hotel_galley');
+        $this->forge->createTable('hotel_gallery');
     }
 
     public function down()
     {
-        $this->forge->dropTable('hotel_galley');
+        $this->forge->dropTable('hotel_gallery');
     }
 }

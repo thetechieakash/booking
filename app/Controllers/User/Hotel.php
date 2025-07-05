@@ -4,6 +4,7 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use App\Controllers\RenderUserViewController;
+use App\Models\HotelModel;
 
 class Hotel extends BaseController
 {

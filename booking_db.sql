@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 21, 2025 at 07:21 PM
+-- Generation Time: Jul 01, 2025 at 07:49 PM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.18
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `admins` (
 --
 
 INSERT INTO `admins` (`id`, `full_name`, `username`, `email`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'SAdmin', 'sadmin@bgb.com', '$2y$10$hebnDGYyNyMntXFA9SEoVu5bfwGYzDZiivGdx146Hh4HrT1/oS6QS', 'superadmin', NULL, NULL, NULL);
+(1, 'Super Admin', 'SAdmin', 'sadmin@bgb.com', '$2y$10$hebnDGYyNyMntXFA9SEoVu5bfwGYzDZiivGdx146Hh4HrT1/oS6QS', 'superadmin', '606a9c38c8499ca468ed0a914ec2656ba8e32895168e955922678c733bb99ba3', NULL, '2025-06-23 16:42:54');
 
 -- --------------------------------------------------------
 
@@ -167,11 +167,11 @@ CREATE TABLE IF NOT EXISTS `hotel_finance` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hotel_galley`
+-- Table structure for table `hotel_gallery`
 --
 
-DROP TABLE IF EXISTS `hotel_galley`;
-CREATE TABLE IF NOT EXISTS `hotel_galley` (
+DROP TABLE IF EXISTS `hotel_gallery`;
+CREATE TABLE IF NOT EXISTS `hotel_gallery` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `hotel_id` int NOT NULL,
   `photos` json DEFAULT NULL,
@@ -191,9 +191,9 @@ DROP TABLE IF EXISTS `hotel_locations`;
 CREATE TABLE IF NOT EXISTS `hotel_locations` (
   `id` int NOT NULL AUTO_INCREMENT,
   `hotel_id` int NOT NULL,
-  `street_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `street_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `city` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `state` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `state` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `zip_code` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
   `country_or_region` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `latitude` decimal(10,7) DEFAULT NULL,

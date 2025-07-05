@@ -3,14 +3,14 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Libraries\CIAuth;
+use App\Libraries\CiAdmin;
 
 class RenderAdminViewController extends BaseController
 {
     // Reuseable functions 
     public function renderViewAdmin($contentView, $data = [])
     {
-        $admindata = CIAuth::admin();
+        $admindata = CiAdmin::admin();
         $totaldata = array_merge($data, ['admindata' => $admindata]);
         return view('fronts/admin/templates/Layout', $totaldata)
             . view('fronts/admin/templates/Vertical-nav')

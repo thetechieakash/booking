@@ -3,14 +3,14 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Libraries\CIAuth;
+use App\Libraries\CiAdmin;
 use App\Models\HotelModel;
 use App\Models\HotelLocationModel;
-use App\Models\AmenitiesModel; //
-use App\Models\HotelAmenitiesModel; //
-use App\Models\HotelGalleyModel;
-use App\Models\HotelFinanceModel; //
-use App\Models\HotelPoliciesModel; //
+use App\Models\AmenitiesModel;
+use App\Models\HotelAmenitiesModel;
+use App\Models\HotelGalleryModel;
+use App\Models\HotelFinanceModel;
+use App\Models\HotelPoliciesModel;
 use App\Libraries\FileUploader;
 use App\Libraries\Slug;
 
@@ -19,7 +19,7 @@ class Addproperty extends BaseController
     protected $helpers = ['url', 'form'];
     public function index($tab = 'tab1', $hotelId = null)
     {
-        $admindata = CIAuth::admin();
+        $admindata = CiAdmin::admin();
         $hModel = new HotelModel();
         $hData = $hModel->where('id', $hotelId)->first();
         $hlModel = new HotelLocationModel();
@@ -28,7 +28,7 @@ class Addproperty extends BaseController
         $amsData = $amModel->getAmsWithCat();
         $hAmModel = new HotelAmenitiesModel();
         $hamData = $hAmModel->where('hotel_id', $hotelId)->first();
-        $hGModel = new HotelGalleyModel();
+        $hGModel = new HotelGalleryModel();
         $hGData = $hGModel->where('hotel_id', $hotelId)->first();
         $hFModel = new HotelFinanceModel();
         $hFData = $hFModel->where('hotel_id', $hotelId)->first();
@@ -159,7 +159,6 @@ class Addproperty extends BaseController
     public function saveLocation($hotelId)
     {
         $formData = $this->request->getPost();
-        // dd($formData);
         $rules = [
             'street_name'       => 'string|max_length[100]',
             'city'              => 'required|string|max_length[100]',
@@ -316,7 +315,7 @@ class Addproperty extends BaseController
         if (!empty($errors)) {
             return redirect()->to('/admin/add_property/tab4/' . $hotelId)->withInput()->with('errors', $errors);
         }
-        $hotelPDb = new HotelGalleyModel();
+        $hotelPDb = new HotelGalleryModel();
         $currentHid = $hotelPDb->where('hotel_id', $hotelId)->first();
         $indata = [
             'hotel_id' => $hotelId,
@@ -333,10 +332,10 @@ class Addproperty extends BaseController
                 }
             }
             $hotelPDb->update($currentHid['id'], $indata);
-            return redirect()->to('/admin/add_property/tab7/' . $hotelId)->withInput()->with('success', 'Hotel photos updated!');
+            return redirect()->to('/admin/add_property/tab7/' . $hotelId)->with('success', 'Hotel photos updated!');
         } else {
             $hotelPDb->insert($indata);
-            return redirect()->to('/admin/add_property/tab5/' . $hotelId)->withInput()->with('success', 'Hotel photos added!');
+            return redirect()->to('/admin/add_property/tab5/' . $hotelId)->with('success', 'Hotel photos added!');
         }
     }
 
@@ -362,14 +361,14 @@ class Addproperty extends BaseController
         if (!empty($currentHid)) {
             // Update
             if ($hotelFDb->update($currentHid['id'], $insertableData)) {
-                return redirect()->to('/admin/add_property/tab7/' . $hotelId)->withInput()->with('success', 'Hotel finances updated!');
+                return redirect()->to('/admin/add_property/tab7/' . $hotelId)->with('success', 'Hotel finances updated!');
             } else {
                 return redirect()->to('/admin/add_property/tab5/' . $hotelId)->withInput()->with('errors', 'Hotel finances update failed!');
             }
         } else {
             // Insert
             if ($hotelFDb->insert($insertableData)) {
-                return redirect()->to('/admin/add_property/tab6/' . $hotelId)->withInput()->with('success', 'Hotel finances added!');
+                return redirect()->to('/admin/add_property/tab6/' . $hotelId)->with('success', 'Hotel finances added!');
             } else {
                 return redirect()->to('/admin/add_property/tab5/' . $hotelId)->withInput()->with('errors', 'Hotel finances add failed!');
             }
@@ -483,10 +482,6 @@ class Addproperty extends BaseController
             'business_registration_no'  => $formData['business_registration_no'], // null or value
             'taxpayer_identification_no' => $formData['taxpayer_identification_no'], // null or value
         ];
-        // dd($insertableData);
-        // echo "<pre>";
-        // print_r($insertableData);
-        // Fix schema typo: hotel_tax-condition → hotel_tax_condition
         // Check if entry exists
         $hotelPoliDb = new HotelPoliciesModel();
         $current = $hotelPoliDb->where('hotel_id', $hotelId)->first();
@@ -495,13 +490,13 @@ class Addproperty extends BaseController
             if ($hotelPoliDb->update($current['id'], $insertableData)) {
                 return redirect()->to('/admin/add_property/tab7/' . $hotelId)->with('success', 'Policies updated!');
             } else {
-                return redirect()->to('/admin/add_property/tab6/' . $hotelId)->with('errors', 'Update failed!')->withInput();
+                return redirect()->to('/admin/add_property/tab6/' . $hotelId)->withInput()->with('errors', 'Update failed!');
             }
         } else {
             if ($hotelPoliDb->insert($insertableData)) {
                 return redirect()->to('/admin/add_property/tab7/' . $hotelId)->with('success', 'Policies added!');
             } else {
-                return redirect()->to('/admin/add_property/tab6/' . $hotelId)->with('errors', 'Insert failed!')->withInput();
+                return redirect()->to('/admin/add_property/tab6/' . $hotelId)->withInput()->with('errors', 'Insert failed!');
             }
         }
     }

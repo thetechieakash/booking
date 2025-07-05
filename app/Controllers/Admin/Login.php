@@ -5,7 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\AdminModel;
 use App\Libraries\Hash;
-use App\Libraries\CIAuth;
+use App\Libraries\CiAdmin;
 
 class Login extends BaseController
 {
@@ -71,7 +71,7 @@ class Login extends BaseController
         }
 
         // Store session
-        CIAuth::setCIAuth($admin);
+        CiAdmin::setCiAdmin($admin);
 
         // Handle Remember Me
         if ($request->getVar('rememberMe')) {

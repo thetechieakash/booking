@@ -5,7 +5,7 @@ namespace App\Filters;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Libraries\CIAuth;
+use App\Libraries\CiAdmin;
 use App\Models\AdminModel;
 
 class AdminFilter implements FilterInterface
@@ -28,15 +28,15 @@ class AdminFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $session = session();
-        $isLoggedIn = CIAuth::check();
-        // 🔐 Handle "Remember Me" functionality if user is not already logged in
+        $isLoggedIn = CiAdmin::check();
+        // Handle "Remember Me" functionality if user is not already logged in
         if (!$session->has('admindata') && isset($_COOKIE['remember_token'])) {
             $adminModel = new AdminModel();
             $adminInfo = $adminModel->where('remember_token', $_COOKIE['remember_token'])->first();
 
             // ⚠️ Optional: Match hashed token instead of plain text for security
             if ($adminInfo && hash_equals($adminInfo['remember_token'], $_COOKIE['remember_token'])) {
-                CIAuth::setCIAuth($adminInfo);
+                CiAdmin::setCiAdmin($adminInfo);
             }
         }
 

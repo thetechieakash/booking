@@ -14,7 +14,8 @@ class UserModel extends Model
         'full_name',
         'email',
         'phone',
-        'password_hash'
+        'password_hash',
+        'remember_token'
     ];
 
 

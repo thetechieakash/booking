@@ -5,6 +5,22 @@ input[type="number"]::-webkit-inner-spin-button {
     /* Optional: Adjust margins */
 }
 
+.ntv {
+    padding-top: 2px;
+    font-size: 0.8rem;
+    color: red;
+}
+
+.c-err {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+
+    .alert {
+        padding: 20px;
+    }
+}
+
 .fs-span {
     font-size: 12px;
 }

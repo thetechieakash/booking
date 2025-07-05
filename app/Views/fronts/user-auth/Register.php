@@ -1,3 +1,10 @@
+<div class="c-err d-none" id="erral">
+    <div class="alert alert-outline-danger d-flex align-items-center gap-2" role="alert">
+        <span class="fas fa-times-circle text-danger fs-6"></span>
+        <span class="mb-0 flex-1" id="erralmsg"></span>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
 <div class="container">
     <div class="row flex-center min-vh-100 py-5">
         <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
@@ -10,73 +17,60 @@
                 <h3 class="text-body-highlight">Sign Up</h3>
                 <p class="text-body-tertiary">Create your account today</p>
             </div>
-            <?= form_open('user/register'); ?>
-            <?= csrf_field() ?>
-            <?php if (session()->has('success')): ?>
-                <div class="alert alert-outline-success d-flex align-items-center py-2 flash_msg" role="alert">
-                    <span class="fas fa-check-circle text-success fs-6 me-3"></span>
-                    <p class="mb-0 flex-1"><?= session('success'); ?></p>
-                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            <form action="<?= base_url('user/register') ?>" method="post" id="registerform">
+                <?= csrf_field() ?>
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="full_name">Name</label>
+                    <input class="form-control" id="full_name" type="text" name="full_name" minlength="0" maxlength="50"
+                        value="" placeholder="Full Name" required />
+                    <p class="ntv d-none" id="nerr"></p>
+
                 </div>
-            <?php endif; ?>
-            <?php if (session()->has('error')): ?>
-                <div class="alert alert-outline-danger d-flex align-items-center py-2 flash_msg" role="alert">
-                    <span class="fas fa-times-circle text-danger fs-6 me-3"></span>
-                    <p class="mb-0 flex-1"><?= session('error'); ?></p>
-                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="email">Email address</label>
+                    <input class="form-control" id="email" type="email" name="email" minlength="0" maxlength="50"
+                        value="" placeholder="name@example.com" required />
+                    <p class="ntv d-none" id="emerr"></p>
                 </div>
-            <?php endif; ?>
-            <div class="mb-3 text-start">
-                <label class="form-label" for="full_name">Name</label>
-                <input class="form-control" id="full_name" type="text" name="full_name" minlength="0" maxlength="50"
-                    value="" placeholder="Full Name" required />
-            </div>
-            <div class="mb-3 text-start">
-                <label class="form-label" for="email">Email address</label>
-                <input class="form-control" id="email" type="email" name="email" minlength="0" maxlength="50"
-                    value="" placeholder="name@example.com" required />
-            </div>
-            <div class="mb-3 text-start">
-                <label class="form-label" for="phone">Phone no</label>
-                <input class="form-control" id="phone" type="tel" name="phone" min="0" max="20" value=""
-                    placeholder="mobile no" required />
-            </div>
-            <div class="row g-3 mb-3">
-                <div class="col-sm-6">
-                    <label class="form-label" for="password">Password</label>
-                    <div class="position-relative" data-password="data-password">
-                        <input class="form-control form-icon-input pe-6" id="password" type="password"
-                            name="password" placeholder="Password" data-password-input="data-password-input"
-                            minlength="5" required />
-                        <button type="button" class="btn px-3 py-0 position-absolute top-50 end-0 translate-middle-y fs-9 text-body-tertiary"
-                            data-password-toggle="data-password-toggle">
-                            <span class="far fa-eye show"></span>
-                            <span class="far fa-eye-slash hide"></span>
-                        </button>
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="phone">Phone no</label>
+                    <input class="form-control" id="phone" type="tel" name="phone" min="0" max="20" value=""
+                        placeholder="mobile no" required />
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="password">Password</label>
+                        <div class="position-relative" data-password="data-password">
+                            <input class="form-control form-icon-input pe-6" id="password" type="password" name="password" placeholder="Password" data-password-input="data-password-input" minlength="5" required />
+                            <button type="button" class="btn px-3 py-0 position-absolute top-50 end-0 translate-middle-y fs-9 text-body-tertiary"
+                                data-password-toggle="data-password-toggle">
+                                <span class="far fa-eye show"></span>
+                                <span class="far fa-eye-slash hide"></span>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <label class="form-label" for="confirm_password">Confirm Password</label>
-                    <div class="position-relative" data-password="data-password">
-                        <input class="form-control form-icon-input pe-6" id="confirmPassword" type="password"
-                            name="confirm_password" placeholder="Confirm Password"
-                            data-password-input="data-password-input" minlength="5" required />
-                        <button type="button" class="btn px-3 py-0 position-absolute top-50 end-0 translate-middle-y fs-9 text-body-tertiary"
-                            data-password-toggle="data-password-toggle">
-                            <span class="far fa-eye show"></span>
-                            <span class="far fa-eye-slash hide"></span>
-                        </button>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="confirm_password">Confirm Password</label>
+                        <div class="position-relative" data-password="data-password">
+                            <input class="form-control form-icon-input pe-6" id="confirm_password" type="password" name="confirm_password" placeholder="Confirm Password" data-password-input="data-password-input" minlength="5" required />
+                            <button type="button" class="btn px-3 py-0 position-absolute top-50 end-0 translate-middle-y fs-9 text-body-tertiary"
+                                data-password-toggle="data-password-toggle">
+                                <span class="far fa-eye show"></span>
+                                <span class="far fa-eye-slash hide"></span>
+                            </button>
+                        </div>
                     </div>
+                    <p class="ntv d-none" id="pwderr"></p>
                 </div>
-            </div>
-            <div class="form-check mb-3">
-                <input class="form-check-input" id="terms" type="checkbox" name="terms" value="1" />
-                <label class="form-label fs-9 text-transform-none" for="terms">
-                    I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a>
-                </label>
-            </div>
-            <button class="btn btn-primary w-100 mb-3">Sign up</button>
-            <?= form_close(); ?>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" id="terms" type="checkbox" name="terms" value="1" />
+                    <label class="form-label fs-9 text-transform-none" for="terms">
+                        I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a>
+                    </label>
+                    <p class="ntv d-none" id="pperr"></p>
+                </div>
+                <button class="btn btn-primary w-100 mb-3">Sign up</button>
+            </form>
             <div class="text-center">
                 <a class="fs-9 fw-bold" href="<?= route_to('user.login') ?>">Sign in to an existing account</a>
             </div>
@@ -86,6 +80,7 @@
 <script src="<?= base_url('vendors/telephoneinput/js/intlTelInputWithUtils.min.js') ?>"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+
         const input = document.querySelector("#phone");
         const iti = window.intlTelInput(input, {
             initialCountry: "auto",
@@ -99,7 +94,7 @@
                         callback("us"); // fallback
                     });
             },
-            utilsScript: "<?= base_url('vendors/telephoneinput/js/utils.js') ?>", // include only if you need formatting/validation
+            utilsScript: "<?= base_url('vendors/telephoneinput/js/utils.js') ?>",
             separateDialCode: true
         });
 
@@ -116,11 +111,74 @@
             }
         });
 
-        // Optional: get number on form submit
-        const form = document.querySelector("form"); // adjust if needed
+        // Handle form submission
+        const form = document.querySelector("#registerform");
+
         if (form) {
-            form.addEventListener("submit", function(e) {
-                input.value = iti.getNumber(); // Get the input contry code with phone no.
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                // Add international number to input
+                input.value = iti.getNumber();
+
+                const formData = new FormData(form);
+
+                fetch("<?= base_url('user/register') ?>", {
+                        method: "POST",
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest' // Required to detect AJAX in CI4
+                        },
+                        body: formData,
+                    })
+                    .then(resp => resp.json())
+                    .then(resp => {
+                        // Handle server response
+                        if (resp.success) {
+                            form.reset();
+                            if (resp.redirect) {
+                                window.location.href = resp.redirect;
+                            }
+                        } else if (resp.err) {
+                            // Handle specific errors
+                            if (resp.type === 'fname') {
+                                const nerr = document.querySelector('#nerr');
+                                nerr.classList.remove('d-none');
+                                nerr.innerHTML = resp.msg;
+                            }
+                            if (resp.type === 'email') {
+                                const emerr = document.querySelector('#emerr');
+                                emerr.classList.remove('d-none');
+                                emerr.innerHTML = resp.msg;
+                            }
+                            if (resp.type === 'pass') {
+                                const pwderr = document.querySelector('#pwderr');
+                                pwderr.classList.remove('d-none');
+                                pwderr.innerHTML = resp.msg;
+                            }
+                            if (resp.type === 'terms') {
+                                const pperr = document.querySelector('#pperr');
+                                pperr.classList.remove('d-none');
+                                pperr.innerHTML = resp.msg;
+                            }
+                            if (resp.type === 'exist') {
+                                const emerr = document.querySelector('#emerr');
+                                emerr.classList.remove('d-none');
+                                emerr.innerHTML = resp.msg;
+
+                            }
+                        } else {
+                            const erral = document.querySelector('#erral');
+                            const erralmsg = document.querySelector('#erralmsg');
+                            erral.classList.remove('d-none');
+                            erralmsg.innerHTML = resp.msg;
+                        }
+                    }).catch(err => {
+                        console.error("Error:", err);
+                        const erral = document.querySelector('#erral');
+                        const erralmsg = document.querySelector('#erralmsg');
+                        exerr.classList.remove('d-none');
+                        erralmsg.innerHTML = resp.msg;
+                    });
             });
         }
     });

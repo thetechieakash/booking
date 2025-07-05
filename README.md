@@ -101,11 +101,18 @@ Create a database name as
 php spark migrate
 
 ```
-**Insert a Default Admin**
+
+**OR**
+
+
+
+**Insert a Default DB seeder**
 
 ```bash
 
 php spark db:seed AdminSeeder
+
+php spark db:seed AmenitiesSeeder
 
 ```
 **Running the Project**

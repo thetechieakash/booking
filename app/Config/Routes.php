@@ -46,22 +46,30 @@ $routes->group('admin', static function ($routes) {
 $routes->group('admin', ['filter' => 'AdminFilter:admin'], static function ($routes) {
     $routes->get('home', 'Admin\Home::index', ['as' => 'admin.home']);
 
+    // Add Property
     // Base tab views
-    $routes->get('add_property', 'Admin\Addproperty::index', ['as' => 'admin.addProperty']); // For creating new property
+    // For creating new property
+    $routes->get('add_property', 'Admin\Addproperty::index', ['as' => 'admin.addProperty']);
     $routes->get('add_property/(:segment)', 'Admin\Addproperty::index/$1'); // Example: tab2
     $routes->get('add_property/(:segment)/(:num)', 'Admin\Addproperty::index/$1/$2'); // Example: tab2 + hotel_id
 
     // Tab form submissions
     $routes->post('save-hotel', 'Admin\Addproperty::saveHotel'); // Tab1 for save hotel
     $routes->post('save-hotel/(:num)', 'Admin\Addproperty::saveHotel/$1'); // Tab1 for update hotel
-    $routes->post('save-location/(:num)', 'Admin\Addproperty::saveLocation/$1'); // Tab2 for hotel loaction
+    $routes->post('save-location/(:num)', 'Admin\Addproperty::saveLocation/$1'); // Tab2 for add or update hotel loaction
     $routes->post('add-amenities/(:num)', 'Admin\Addproperty::addAmenities/$1'); // Tab3 add custom amenities
-    $routes->post('save-hotel-amenities/(:num)', 'Admin\Addproperty::saveHotelAmenities/$1'); // Tab3
-    $routes->post('save-photos/(:num)', 'Admin\Addproperty::savePhotos/$1'); // Tab4
-    $routes->post('save-finance/(:num)', 'Admin\Addproperty::saveFinance/$1'); // Tab5
-    $routes->post('save-policies/(:num)', 'Admin\Addproperty::savePolicies/$1'); // Tab6
-    // end
+    $routes->post('save-hotel-amenities/(:num)', 'Admin\Addproperty::saveHotelAmenities/$1'); // Tab3 for add or update hotel amenities
+    $routes->post('save-photos/(:num)', 'Admin\Addproperty::savePhotos/$1'); // Tab4 for add or update hotel photos
+    $routes->post('save-finance/(:num)', 'Admin\Addproperty::saveFinance/$1'); // Tab5 for add or update hotel finance
+    $routes->post('save-policies/(:num)', 'Admin\Addproperty::savePolicies/$1'); // Tab6 for add or update hotel policies
 
+    $routes->post('delete_hotel/(:num)', 'Admin\Deleteproperty::deleteHotel/$1'); // Find and delete hotel    
+
+    // Tab form submissions end
+    $routes->get('search_hotel', 'Admin\Searchhotel::searchHotel', ['as' => 'admin.search.hotel']);
+
+    $routes->get('room_listing', 'Admin\Roomlisting::index', ['as' => 'admin.room.listing']);
+    $routes->get('hotel_listing', 'Admin\Hotellisting::index', ['as' => 'admin.hotel.listing']);
     $routes->get('add_room', 'Admin\Addroom::index', ['as' => 'admin.addRoom']);
     $routes->get('members', 'Admin\Members::index', ['as' => 'admin.members']);
     $routes->get('add_admin', 'Admin\Addadmin::index', ['as' => 'admin.addadmin']);

@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Libraries\CIAuth;
+use App\Libraries\CiAdmin;
 use App\Models\AdminModel;
 use App\Libraries\Hash;
 use Config\Services;
@@ -14,7 +14,7 @@ class Addadmin extends BaseController
 
     public function index()
     {
-        $admindata = CIAuth::admin();
+        $admindata = CiAdmin::admin();
         $data = [
             'pageTitle' => 'members',
             'admindata' => $admindata,

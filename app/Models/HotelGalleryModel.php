@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class HotelGalleyModel extends Model
+class HotelGalleryModel extends Model
 {
-    protected $table            = 'hotel_galley';
+    protected $table            = 'hotel_gallery';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array'; 

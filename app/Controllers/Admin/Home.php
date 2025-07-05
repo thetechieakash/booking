@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Libraries\CIAuth;
+use App\Libraries\CiAdmin;
 
 class Home extends BaseController
 {
@@ -11,7 +11,7 @@ class Home extends BaseController
 
     public function index()
     {
-        $admindata = CIAuth::admin();
+        $admindata = CiAdmin::admin();
         $data = [
             'pageTitle' => 'Home',
             'admindata' => $admindata,

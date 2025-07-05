@@ -5,7 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\AdminModel;
 use App\Libraries\Hash;
-use App\Libraries\CIAuth;
+use App\Libraries\CiAdmin;
 
 class Forgotpassword extends BaseController
 {
@@ -13,7 +13,7 @@ class Forgotpassword extends BaseController
 
     public function index()
     {
-        $admindata = CIAuth::admin();
+        $admindata = CiAdmin::admin();
         $session = session();
         $step = $session->get('step') ?? 'old_verification';
 
