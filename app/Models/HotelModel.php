@@ -92,4 +92,10 @@ class HotelModel extends Model
             ->where('hotels.id', $hotelId)
             ->first(); // Get single row
     }
+    public function searchHotel($keyword)
+    {
+        return $this->like('property_name', $keyword)
+            ->orWhere('id', $keyword)
+            ->findAll(10);
+    }
 }

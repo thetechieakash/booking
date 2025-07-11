@@ -106,7 +106,7 @@ php spark migrate
 
 
 
-**Insert a Default DB seeder**
+**Insert Default DB seeder**
 
 ```bash
 

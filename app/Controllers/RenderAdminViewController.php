@@ -20,11 +20,4 @@ class RenderAdminViewController extends BaseController
             . view('fronts/admin/templates/Footer')
             . view('fronts/admin/templates/Jsmain');
     }
-
-    public function renderViewAdminAuth($contentView, $data = [])
-    {
-        return view('fronts/admin/templates/Layout', $data)
-            . view($contentView)
-            . view('fronts/admin/templates/Jsmain');
-    }
 }

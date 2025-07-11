@@ -8,6 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 
 // Public routes - accessible to everyone
 $routes->get('/', 'User\Hotel::index', ['as' => 'home']);
+$routes->get('search_hotel', 'User\Hotel::searchHotel', ['as' => 'search.hotel']);
 
 $routes->group('hotel', static function ($routes): void {
     $routes->get('details', 'User\Hoteldetails::index', ['as' => 'hotelDetails']);
@@ -66,7 +67,7 @@ $routes->group('admin', ['filter' => 'AdminFilter:admin'], static function ($rou
     $routes->post('delete_hotel/(:num)', 'Admin\Deleteproperty::deleteHotel/$1'); // Find and delete hotel    
 
     // Tab form submissions end
-    $routes->get('search_hotel', 'Admin\Searchhotel::searchHotel', ['as' => 'admin.search.hotel']);
+    // $routes->get('search_hotel', 'Admin\Searchhotel::searchHotel', ['as' => 'admin.search.hotel']);
 
     $routes->get('room_listing', 'Admin\Roomlisting::index', ['as' => 'admin.room.listing']);
     $routes->get('hotel_listing', 'Admin\Hotellisting::index', ['as' => 'admin.hotel.listing']);
@@ -77,6 +78,12 @@ $routes->group('admin', ['filter' => 'AdminFilter:admin'], static function ($rou
     $routes->get('logout', 'Admin\Logout::logoutHandler', ['as' => 'admin.logout.handler']);
     $routes->get('forgot_password', 'Admin\Forgotpassword::index', ['as' => 'admin.forgot.password']);
     $routes->post('forgot_password', 'Admin\Forgotpassword::forgotPasswordHandler', ['as' => 'admin.forgot.password.handler']);
+});
+
+// API
+$routes->group('api', static function ($routes) {
+    $routes->get('hotels', 'Api\HotelController::allHotels', ['as' => 'api.hotels']);
+    $routes->get('hotels/(:num)', 'Api\HotelController::singleHotel/$1');
 });
 
 // 404 override - custom page for not found routes

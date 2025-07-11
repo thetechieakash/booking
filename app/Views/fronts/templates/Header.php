@@ -185,7 +185,143 @@ $session = session();
                         <li><a class="dropdown-item" href="<?= route_to('tripCheckOut') ?>">Checkout</a></li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <div class="search-box navbar-top-search-box d-none d-lg-block py-1" style="width:25rem;">
+                        <form action="<?= base_url('search_hotel'); ?>" method="get" class="position-relative" data-bs-toggle="search" data-bs-display="static" aria-expanded="false">
+                            <?= csrf_field(); ?>
+                            <input class="form-control search-input fuzzy-search rounded-pill form-control-sm" id="searchInput" type="search" placeholder="Search..." aria-label="Search" name="keyword">
+                            <span class="fas fa-search search-box-icon"></span>
+                        </form>
+                        <div class="btn-close position-absolute end-0 top-50 translate-middle cursor-pointer shadow-none" data-bs-dismiss="search">
+                            <button class="btn btn-link p-0" aria-label="Close"></button>
+                        </div>
+                        <div class="dropdown-menu border start-0 py-0 overflow-hidden w-100 m-0">
+                            <div class="scrollbar-overlay" style="max-height: 30rem;" data-simplebar="init">
+                                <div class="simplebar-wrapper" style="margin: 0px;">
+                                    <div class="simplebar-height-auto-observer-wrapper">
+                                        <div class="simplebar-height-auto-observer"></div>
+                                    </div>
+                                    <div class="simplebar-mask">
+                                        <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                            <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;">
+                                                <div class="simplebar-content" style="padding: 0px;">
+                                                    <div class="list pb-3" id="searchResults">
+                                                        <div id="keywordwrapper">
+                                                            <hr class="my-0">
+                                                            <h6 class="dropdown-header text-body-highlight fs-9 border-bottom border-translucent py-2 lh-sm">Search result for <span id="keyword"></span></h6>
+                                                        </div>
+                                                        <div class="py-2" id="drdwrapper">
+                                                        </div>
+                                                        <div id="fallbackwrapper">
+                                                            <hr class="my-0">
+                                                            <div class="text-center">
+                                                                <p class="fallback fw-bold fs-7">No Result Found.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="simplebar-placeholder" style="width: 0px; height: 0px;"></div>
+                                </div>
+                                <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                                    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                                </div>
+                                <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
+                                    <div class="simplebar-scrollbar" style="height: 0px; display: none; transform: translate3d(0px, 0px, 0px);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('searchInput');
+        const dropdownMenu = input.closest('.search-box').querySelector('.dropdown-menu');
+        const keywordEl = document.getElementById('keyword');
+        const keywordWrapper = document.getElementById('keywordwrapper');
+        const drdWrapper = document.getElementById('drdwrapper');
+        const fallbackWrapper = document.getElementById('fallbackwrapper');
+
+        let debounceTimer;
+
+        input.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') return;
+
+            const query = input.value.trim();
+            clearTimeout(debounceTimer);
+
+            debounceTimer = setTimeout(() => {
+                keywordEl.innerHTML = '';
+                drdWrapper.innerHTML = '';
+                fallbackWrapper.style.display = 'none';
+                keywordWrapper.style.display = 'none';
+                if (query.length < 3) {
+                    fallbackWrapper.style.display = 'block';
+                    dropdownMenu.classList.add('show'); // Force dropdown to stay open
+                    return;
+                }
+
+                fetch(`<?= base_url('search_hotel'); ?>?keyword=${encodeURIComponent(query)}`, {
+                        method: "GET",
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    })
+                    .then(resp => resp.json())
+                    .then(resp => {
+                        keywordEl.textContent = resp.keyword;
+                        keywordWrapper.style.display = 'block';
+
+                        if (resp.hotels && resp.hotels.length > 0) {
+                            fallbackWrapper.style.display = 'none';
+                            resp.hotels.forEach(hotel => {
+                                const link = document.createElement('a');
+                                link.className = 'dropdown-item py-2 d-flex align-items-center';
+                                link.href = `<?= base_url('hotel/details/'); ?>${hotel.id}`;
+                                link.innerHTML = `
+                            <div class="file-thumbnail me-2">
+                                <img class="h-100 w-100 object-fit-cover rounded-3" src="<?= base_url('image/hotel_thumbnail/'); ?>${hotel.id+'/'+hotel.thumbnail}" alt="${hotel.property_name}">
+                            </div>
+                            <div class="flex-1">
+                                <h6 class="mb-0 text-body-highlight title">${hotel.property_name}</h6>
+                                <p class="fs-10 mb-0 d-flex text-body-tertiary">
+                                    <span class="fw-medium text-body-tertiary text-opacity-85">
+                                        ${hotel.description.substring(0, 30)}...
+                                    </span>
+                                </p>
+                            </div>
+                        `;
+                                drdWrapper.appendChild(link);
+                            });
+
+                        } else {
+                            fallbackWrapper.style.display = 'block';
+                        }
+
+                        dropdownMenu.classList.add('show'); // keep dropdown visible
+                    })
+                    .catch(err => {
+                        console.error('Fetch error:', err);
+                        keywordEl.textContent = '';
+                        drdWrapper.innerHTML = '';
+                        fallbackWrapper.style.display = 'block';
+                        keywordWrapper.style.display = 'none';
+                        dropdownMenu.classList.add('show');
+                    });
+            }, 500);
+        });
+
+        // Optional: Hide dropdown on outside click
+        document.addEventListener('click', function(e) {
+            if (!input.closest('.search-box').contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    });
+</script>
